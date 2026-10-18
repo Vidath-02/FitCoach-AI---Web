@@ -20,6 +20,8 @@ export function Navbar() {
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
     setScrolled(y > 24);
+    // Back in the hero: no section is active.
+    if (y < window.innerHeight * 0.5) setActive("");
     setHidden(y > 600 && y > prev + 4 && !open);
     if (y < prev - 4) setHidden(false);
   });

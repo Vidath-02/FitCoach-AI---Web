@@ -17,12 +17,12 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
         />
       </Question>
 
-      <Question title="Anything else we should know?" hint="Concerns, ideas, frustrations with other apps — all welcome." optional>
+      <Question title="Anything else I should know?" hint="Concerns, ideas and frustrations with other apps are all welcome." optional>
         <TextArea
           label="Additional feedback"
           value={answers.feedback}
           onChange={(v) => update("feedback", v)}
-          placeholder="Tell us anything…"
+          placeholder="Share anything…"
           rows={3}
         />
       </Question>
@@ -33,7 +33,7 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
             checked={answers.earlyAccess}
             onChange={(v) => update("earlyAccess", v)}
             label="Get early access to Phase 1"
-            description="We'll email you once, when the January release is ready. No spam."
+            description="You'll get one email when the January release is ready. No spam."
           />
           <AnimatePresence initial={false}>
             {answers.earlyAccess && (

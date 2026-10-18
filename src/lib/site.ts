@@ -7,9 +7,20 @@ export const site = {
   name: "FitCoach AI",
   tagline: "A new standard in fitness is coming.",
   description:
-    "FitCoach AI uses computer vision to estimate body measurements from your phone camera and turns them into personalised, motivating fitness tracking. Help shape it — take the pre-launch survey.",
+    "FitCoach AI uses computer vision to estimate body measurements from your phone camera and turns them into personalised, motivating fitness tracking. Help shape it by taking the pre-launch survey.",
   url: "https://fitcoach-ai.vercel.app",
   surveyMinutes: 3,
+};
+
+/** The person behind the project, shown in the About section and footer. */
+export const creator = {
+  name: "Vidath Kumarasiri",
+  initials: "VK",
+  role: "Final-year Software Engineering undergraduate",
+  links: [
+    { label: "GitHub", href: "https://github.com/Vidath-02" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/vidath-suweeraka" },
+  ],
 };
 
 export const nav = [
@@ -19,7 +30,7 @@ export const nav = [
   { id: "survey", label: "Survey" },
 ] as const;
 
-/** Phase 1 target — first/second week of January. Used by the countdown. */
+/** Phase 1 target (first or second week of January). Used by the countdown. */
 export const PHASE_ONE_DATE = new Date("2027-01-04T09:00:00+05:30");
 
 export type MilestoneStatus = "active" | "upcoming" | "planned";
@@ -51,9 +62,9 @@ export const roadmap: {
     when: "1st – 2nd week of January 2027",
     status: "upcoming",
     summary:
-      "The core experience: scan with your phone camera, get your key body measurements, start tracking.",
+      "The core experience: scan with your phone camera, get your key body measurements and start tracking.",
     items: [
-      "AI body-measurement estimation (front + side capture)",
+      "AI body-measurement estimation (front and side capture)",
       "Personal profile & measurement history",
       "Early-access group onboarding",
     ],
@@ -64,7 +75,7 @@ export const roadmap: {
     when: "Mid-March 2027",
     status: "planned",
     summary:
-      "The full FitCoach AI platform — refined models, rich progress insights and personalised guidance.",
+      "The full FitCoach AI platform, with refined models, rich progress insights and personalised guidance.",
     items: [
       "Progress analytics & visual body timeline",
       "Personalised workout recommendations",

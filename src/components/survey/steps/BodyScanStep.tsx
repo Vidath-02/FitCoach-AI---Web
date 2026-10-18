@@ -13,7 +13,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         <Camera className="mt-0.5 h-5 w-5 shrink-0 text-cyan" />
         <p className="text-sm leading-relaxed text-fg/85">
           <span className="font-medium text-fg">How it would work:</span> you take a front and a side photo with your
-          phone, and our model estimates measurements like chest, waist and hips — no tape measure needed.
+          phone, and the model estimates measurements like chest, waist and hips. No tape measure needed.
         </p>
       </div>
 
@@ -26,7 +26,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How important is privacy of your body data?">
+      <Question title="How important is the privacy of your body data?">
         <RangeSlider
           label="Privacy importance from 0 to 100"
           value={answers.privacyImportance}

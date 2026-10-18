@@ -8,9 +8,9 @@ import { ScrollText } from "@/components/ui/ScrollText";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 const pillars = [
-  { icon: Gauge, title: "Accurate", body: "Measurements you can trust, validated against real tape-measure data." },
+  { icon: Gauge, title: "Accurate", body: "Every estimate will be tested against real tape-measure readings." },
   { icon: Lock, title: "Private by design", body: "Your body data is yours. Minimal collection, clear consent, no surprises." },
-  { icon: Globe, title: "Accessible", body: "No gym membership or expensive hardware — just the phone in your pocket." },
+  { icon: Globe, title: "Accessible", body: "No gym membership or expensive hardware. Just the phone in your pocket." },
   { icon: WandSparkles, title: "Motivating", body: "Progress you can see, goals that adapt, and feedback that keeps you going." },
 ];
 
@@ -21,12 +21,12 @@ export function VisionMission() {
 
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
-          <Eyebrow>02 — Vision &amp; Mission</Eyebrow>
+          <Eyebrow>02 / Vision &amp; Mission</Eyebrow>
         </Reveal>
 
         <ScrollText
           className="mt-10 font-display text-[clamp(2rem,4.6vw,4.1rem)] font-semibold leading-[1.08] tracking-[-0.035em]"
-          text="We believe everyone deserves to understand their body as precisely as an elite athlete — using nothing more than the phone in their pocket."
+          text="I believe everyone deserves to understand their body as precisely as an elite athlete, using nothing more than the phone in their pocket."
           highlight={["everyone", "precisely", "phone"]}
         />
 
@@ -34,11 +34,11 @@ export function VisionMission() {
           <Reveal>
             <SpotlightCard className="h-full p-8 sm:p-10" glow="rgba(61,224,255,0.12)">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan">Our vision</span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan">The vision</span>
                 <Eye className="h-5 w-5 text-cyan" />
               </div>
               <p className="mt-8 font-display text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
-                A world where tracking your fitness is as effortless as taking a photo — and every person can see,
+                A world where tracking your fitness is as effortless as taking a photo, and where every person can see,
                 trust and celebrate their own progress.
               </p>
             </SpotlightCard>
@@ -46,7 +46,7 @@ export function VisionMission() {
           <Reveal delay={0.1}>
             <SpotlightCard className="h-full p-8 sm:p-10">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-volt">Our mission</span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-volt">The mission</span>
                 <Rocket className="h-5 w-5 text-volt" />
               </div>
               <p className="mt-8 font-display text-2xl font-medium leading-snug tracking-tight sm:text-3xl">

@@ -2,7 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
-import { nav, site } from "@/lib/site";
+import { creator, nav, site } from "@/lib/site";
 import { useScrollTo } from "@/lib/useScrollTo";
 
 export function Footer() {
@@ -15,8 +15,8 @@ export function Footer() {
           <div className="max-w-sm">
             <Logo />
             <p className="mt-5 text-sm leading-relaxed text-muted">
-              An AI-powered platform for computer-vision body measurement and fitness tracking. Built as a
-              final-year university research project.
+              An AI-powered platform for computer-vision body measurement and fitness tracking. An individual
+              final-year project by {creator.name}.
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export function Footer() {
 
       <div className="relative border-t border-line bg-ink/80">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-subtle sm:flex-row">
-          <p>© {new Date().getFullYear()} {site.name}. Final-year research project.</p>
+          <p>© {new Date().getFullYear()} {site.name} · Built by {creator.name}</p>
           <p className="font-mono uppercase tracking-[0.18em]">Pre-launch · v0.1</p>
         </div>
       </div>

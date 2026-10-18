@@ -14,7 +14,7 @@ export function FitnessStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How long is a typical workout?" hint="Drag the slider — a rough guess is perfect.">
+      <Question title="How long is a typical workout?" hint="Drag the slider. A rough guess is perfect.">
         <RangeSlider
           label="Typical workout length in minutes"
           value={answers.sessionMinutes}
@@ -25,7 +25,7 @@ export function FitnessStep({ answers, update }: StepProps) {
           ticks={["0", "60 min", "120+"]}
           format={(v) => (
             <>
-              {v === 0 ? "I don't yet" : v >= 120 ? "120+" : v}
+              {v === 0 ? "Not yet" : v >= 120 ? "120+" : v}
               {v > 0 && <span className="ml-1.5 text-base font-medium text-muted">min</span>}
             </>
           )}

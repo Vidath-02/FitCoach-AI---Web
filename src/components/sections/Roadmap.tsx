@@ -27,10 +27,10 @@ export function Roadmap() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
           <SectionHeading
-            eyebrow="03 — Roadmap"
+            eyebrow="03 / Roadmap"
             title="Launching sooner than you think."
             highlight={["sooner"]}
-            description="We're building in the open. Here's what's happening and when — your survey answers directly shape what lands in each phase."
+            description="I'm building in the open. Here's what's happening and when. Your survey answers directly shape what lands in each phase."
           />
           <Reveal delay={0.15}>
             <div className="glass rounded-3xl p-6 sm:p-8">

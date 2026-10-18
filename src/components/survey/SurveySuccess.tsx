@@ -59,7 +59,7 @@ export function SurveySuccess({ answers, onAnother }: { answers: SurveyAnswers; 
 
   const share = async () => {
     const url = window.location.origin;
-    const data = { title: "FitCoach AI", text: "Help shape FitCoach AI — a new standard in fitness is coming.", url };
+    const data = { title: "FitCoach AI", text: "Help shape FitCoach AI. A new standard in fitness is coming.", url };
     try {
       if (navigator.share) await navigator.share(data);
       else {
@@ -106,7 +106,7 @@ export function SurveySuccess({ answers, onAnother }: { answers: SurveyAnswers; 
       >
         Your response has been recorded.{" "}
         {answers.earlyAccess && answers.email
-          ? "You're on the early-access list — we'll email you when Phase 1 is ready in January."
+          ? "You're on the early-access list, and you'll get an email when Phase 1 is ready in January."
           : "Keep an eye out for Phase 1 in January."}
       </motion.p>
 
@@ -117,7 +117,7 @@ export function SurveySuccess({ answers, onAnother }: { answers: SurveyAnswers; 
           transition={{ duration: 1, ease, delay: 0.7 }}
           className="mt-10 w-full max-w-xl rounded-2xl border border-line bg-white/[0.02] p-5 text-left"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">What you told us</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">What you shared</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {answers.goals.map((g) => (
               <span key={g} className="rounded-full border border-cyan/30 bg-cyan/10 px-3 py-1 text-xs text-cyan">

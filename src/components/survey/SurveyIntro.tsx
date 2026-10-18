@@ -8,7 +8,7 @@ import { steps } from "./steps";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/** Positions + tilts a card (Framer) while an inner wrapper floats (CSS) — kept separate so transforms don't clash. */
+/** Positions + tilts a card (Framer) while an inner wrapper floats (CSS), kept separate so transforms don't clash. */
 function FloatCard({
   className,
   rotate,
@@ -98,11 +98,11 @@ export function SurveyIntro({
       <div>
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-volt">FitCoach AI · Research survey</p>
         <h3 className="mt-5 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] sm:text-5xl">
-          Your answers decide what we build.
+          Your answers decide what gets built.
         </h3>
         <p className="mt-5 max-w-lg leading-relaxed text-muted">
-          Forget boring forms. Tap, slide and rate your way through {steps.length} short steps — it takes about{" "}
-          {site.surveyMinutes} minutes and every response feeds directly into our research.
+          Forget boring forms. Tap, slide and rate your way through {steps.length} short steps. It takes about{" "}
+          {site.surveyMinutes} minutes, and every response feeds directly into my research.
         </p>
 
         <ul className="mt-8 grid gap-3 sm:grid-cols-3">

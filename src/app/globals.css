@@ -159,7 +159,7 @@
   mask-image: radial-gradient(ellipse at center, black 25%, transparent 72%);
 }
 
-/* Film grain overlay — adds the cinematic texture across the whole page */
+/* Film grain overlay: adds the cinematic texture across the whole page */
 .grain::after {
   content: "";
   position: fixed;
@@ -193,7 +193,7 @@
   }
 }
 
-/* Range slider — native input with a custom thumb; the track is drawn by the component */
+/* Range slider: native input with a custom thumb; the track is drawn by the component */
 .range {
   -webkit-appearance: none;
   appearance: none;

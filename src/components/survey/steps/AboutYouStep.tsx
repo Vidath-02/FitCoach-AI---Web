@@ -5,7 +5,7 @@ import type { StepProps } from "../types";
 export function AboutYouStep({ answers, update }: StepProps) {
   return (
     <div className="space-y-10">
-      <Question title="What should we call you?" hint="First name or nickname — it just personalises your experience." optional>
+      <Question title="What should I call you?" hint="First name or nickname. It just personalises your experience." optional>
         <TextField
           label="Your name"
           value={answers.name}
@@ -26,7 +26,7 @@ export function AboutYouStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="Gender" hint="Body measurement models can differ by body type — this helps us test fairly." optional>
+      <Question title="Gender" hint="Body measurement models can differ by body type, so this helps me test fairly." optional>
         <OptionCards
           label="Gender"
           options={genders}

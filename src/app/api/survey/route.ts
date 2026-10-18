@@ -4,7 +4,7 @@ import { getSupabase } from "@/lib/supabase/server";
 /**
  * Receives a survey response, validates it, and stores it in Supabase
  * (`public.survey_responses`, see supabase/migrations/001_survey_responses.sql).
- * Without Supabase env vars the response is only logged — handy for local dev.
+ * Without Supabase env vars the response is only logged, which is handy for local dev.
  */
 
 const str = (v: unknown, max: number) => (typeof v === "string" && v.trim() ? v.trim().slice(0, max) : null);
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
 
   const supabase = getSupabase();
   if (!supabase) {
-    console.info("[survey] Supabase not configured — response logged only:", JSON.stringify(row));
+    console.info("[survey] Supabase not configured, response logged only:", JSON.stringify(row));
     return NextResponse.json({ ok: true });
   }
 
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
   const { error } = await supabase.from("survey_responses").insert(row);
   if (error) {
     console.error("[survey] Supabase insert failed:", error.code, error.message);
-    return NextResponse.json({ error: "We couldn't save your response. Please try again." }, { status: 502 });
+    return NextResponse.json({ error: "Your response couldn't be saved. Please try again." }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true });

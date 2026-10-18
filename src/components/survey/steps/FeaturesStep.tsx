@@ -9,7 +9,7 @@ export function FeaturesStep({ answers, update }: StepProps) {
     <div className="space-y-10">
       <Question
         title="Which features matter to you?"
-        hint={`Rate each one — we'll prioritise the must-haves.${mustCount ? ` (${mustCount} must-have${mustCount > 1 ? "s" : ""} so far)` : ""}`}
+        hint={`Rate each one. Must-haves get built first.${mustCount ? ` (${mustCount} must-have${mustCount > 1 ? "s" : ""} so far)` : ""}`}
       >
         <div className="grid gap-3">
           {features.map((f) => (

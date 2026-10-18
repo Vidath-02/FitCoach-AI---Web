@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/** Floating measurement tags drawn over the 3D figure — the "computer vision" HUD. */
+/** Floating measurement tags drawn over the 3D figure (the "computer vision" HUD). */
 const tags = [
   { label: "Shoulders", base: 46.2, unit: "cm", pos: "left-[4%] top-[22%]", side: "left" as const },
   { label: "Chest", base: 98.4, unit: "cm", pos: "right-[2%] top-[33%]", side: "right" as const },
@@ -120,8 +120,8 @@ export function Hero() {
             transition={{ duration: 1, ease, delay: 0.9 }}
             className="mt-7 max-w-xl text-base leading-relaxed text-muted text-pretty sm:text-lg"
           >
-            FitCoach AI turns your phone camera into a precision body-measurement tool — then uses those
-            numbers to track real progress and coach you forward. Help us build it right.
+            FitCoach AI turns your phone camera into a precision body-measurement tool, then uses those
+            numbers to track real progress and coach you forward. Help shape it from day one.
           </motion.p>
 
           <motion.div
@@ -145,7 +145,7 @@ export function Hero() {
             className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6"
           >
             {[
-              { icon: ScanLine, k: "Phone-camera", v: "body scan" },
+              { icon: ScanLine, k: "Phone camera", v: "body scan" },
               { icon: Clock, k: `~${site.surveyMinutes} minutes`, v: "to share your voice" },
               { icon: Sparkles, k: "Jan 2027", v: "Phase 1 release" },
             ].map(({ icon: Icon, k, v }) => (

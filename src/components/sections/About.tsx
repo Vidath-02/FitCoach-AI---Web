@@ -1,22 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Brain, Camera, ChartLine, HeartPulse, InfinityIcon, Moon, ScanLine, Users } from "lucide-react";
+import { ArrowUpRight, Brain, Camera, ChartLine, HeartPulse, InfinityIcon, Moon, ScanLine } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, Stagger, staggerItem } from "@/components/ui/Reveal";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Counter } from "@/components/ui/Counter";
+import { creator } from "@/lib/site";
 
 const steps = [
   {
     icon: Camera,
     title: "Capture",
-    body: "Two quick photos — front and side — taken with the phone you already own. No tape, no smart scale.",
+    body: "Two quick photos, one from the front and one from the side, taken with the phone you already own. No tape, no smart scale.",
   },
   {
     icon: ScanLine,
     title: "Analyse",
-    body: "Our computer-vision model detects your body's key points and estimates measurements like chest, waist and hips.",
+    body: "A computer-vision model detects your body's key points and estimates measurements like chest, waist and hips.",
   },
   {
     icon: ChartLine,
@@ -53,36 +54,57 @@ export function About() {
     <section id="about" className="relative py-28 sm:py-36">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading
-          eyebrow="01 — About FitCoach AI"
+          eyebrow="01 / About FitCoach AI"
           title="Fitness progress, finally measured properly."
           highlight={["measured"]}
           description={
             <>
-              Most people track fitness with a bathroom scale and a guess. Weight alone hides the real story —
+              Most people track fitness with a bathroom scale and a guess. Weight alone hides the real story:
               you can lose fat, gain muscle and see <em className="not-italic text-fg">no change on the scale</em>.
               FitCoach AI gives everyone access to the kind of body measurements that used to need a trainer.
             </>
           }
         />
 
-        {/* Who we are / Why */}
+        {/* Who's building it / Why */}
         <div className="mt-20 grid gap-5 lg:grid-cols-5">
           <Reveal className="lg:col-span-2">
             <SpotlightCard className="h-full p-8">
-              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-volt/10 text-volt ring-1 ring-volt/30">
-                <Users className="h-5 w-5" />
+              <div className="flex items-center gap-4">
+                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-volt to-cyan font-display text-lg font-bold text-ink">
+                  {creator.initials}
+                </div>
+                <div className="min-w-0">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Who&apos;s building it</p>
+                  <h3 className="mt-1 font-display text-xl font-semibold tracking-tight">{creator.name}</h3>
+                  <p className="text-sm text-muted">{creator.role}</p>
+                </div>
               </div>
-              <h3 className="mt-6 font-display text-2xl font-semibold tracking-tight">Who we are</h3>
-              <p className="mt-3 leading-relaxed text-muted">
-                We&apos;re a final-year university research team combining computer vision, machine learning and
-                product design. FitCoach AI is our answer to a simple question: why is understanding your own body
-                still so hard?
+              <p className="mt-6 leading-relaxed text-muted">
+                FitCoach AI is my individual final-year project for a BEng (Hons) in Software Engineering at the
+                University of Westminster, studied at IIT Sri Lanka. Before this, I spent two years in industry
+                building automation pipelines, backend services and applied-AI tools. Now I&apos;m using that
+                experience to answer one simple question: why is understanding your own body still so hard?
               </p>
-              <h3 className="mt-8 font-display text-2xl font-semibold tracking-tight">Why we&apos;re building it</h3>
+              <h3 className="mt-8 font-display text-2xl font-semibold tracking-tight">Why I&apos;m building it</h3>
               <p className="mt-3 leading-relaxed text-muted">
-                Motivation dies when progress is invisible. Accurate, effortless measurement makes progress visible —
-                and visible progress keeps people moving. That&apos;s the habit loop we want to unlock for everyone.
+                Motivation dies when progress is invisible. Accurate, effortless measurement makes progress visible,
+                and visible progress keeps people moving. That&apos;s the habit loop I want to unlock for everyone.
               </p>
+              <div className="mt-8 flex flex-wrap gap-2">
+                {creator.links.map((l) => (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.03] px-3.5 py-1.5 text-sm text-fg/85 transition-colors hover:border-volt/50 hover:text-volt"
+                  >
+                    {l.label}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                ))}
+              </div>
             </SpotlightCard>
           </Reveal>
 
@@ -128,7 +150,7 @@ export function About() {
                   <span className="ml-2 align-middle text-2xl text-muted sm:text-3xl">min / week</span>
                 </p>
                 <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">
-                  The World Health Organization recommends adults get at least 150–300 minutes of moderate
+                  The World Health Organization recommends that adults get 150–300 minutes of moderate
                   activity every week. FitCoach AI is designed to make reaching it feel rewarding.
                 </p>
               </div>

@@ -38,7 +38,7 @@ const storage = {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
     } catch {
-      /* storage unavailable — survey still works */
+      /* storage unavailable; survey still works */
     }
   },
   clear() {

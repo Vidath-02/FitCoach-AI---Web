@@ -42,7 +42,7 @@ export function Question({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Option cards — single or multi select                              */
+/*  Option cards: single or multi select                                */
 /* ------------------------------------------------------------------ */
 function CheckBadge({ on }: { on: boolean }) {
   return (
@@ -151,7 +151,7 @@ export function OptionCards({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Chips — compact multi-select                                       */
+/*  Chips: compact multi-select                                         */
 /* ------------------------------------------------------------------ */
 export function Chips({
   options,

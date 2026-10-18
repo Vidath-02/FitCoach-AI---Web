@@ -32,7 +32,7 @@ export interface SurveyAnswers {
   earlyAccess: boolean;
   email: string;
   consent: boolean;
-  /** honeypot — real users never see or fill this */
+  /** honeypot: real users never see or fill this */
   company: string;
 }
 
