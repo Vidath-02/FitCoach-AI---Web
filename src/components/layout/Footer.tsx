@@ -24,10 +24,10 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-12 text-sm">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-subtle">Explore</p>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-2">
                 {nav.map((n) => (
                   <li key={n.id}>
-                    <button onClick={() => scrollTo(n.id)} className="text-muted transition-colors hover:text-fg">
+                    <button onClick={() => scrollTo(n.id)} className="inline-flex min-h-11 items-center text-muted transition-colors hover:text-fg">
                       {n.label}
                     </button>
                   </li>
@@ -36,19 +36,19 @@ export function Footer() {
             </div>
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-subtle">Project</p>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-2">
                 <li>
                   <a
                     href="https://github.com/Vidath-02/FitCoach-AI---Web"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-muted transition-colors hover:text-fg"
+                    className="inline-flex min-h-11 items-center gap-1 text-muted transition-colors hover:text-fg"
                   >
                     Source <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                 </li>
                 <li>
-                  <button onClick={() => scrollTo("survey")} className="text-muted transition-colors hover:text-fg">
+                  <button onClick={() => scrollTo("survey")} className="inline-flex min-h-11 items-center text-muted transition-colors hover:text-fg">
                     Join early access
                   </button>
                 </li>
@@ -64,10 +64,26 @@ export function Footer() {
       </div>
 
       {/* Oversized outlined wordmark */}
-      <div aria-hidden className="pointer-events-none select-none px-4">
-        <p className="text-outline -mb-[0.22em] whitespace-nowrap text-center font-display text-[19vw] font-bold leading-none tracking-[-0.06em]">
-          FITCOACH AI
-        </p>
+      {/* SVG so the word always spans the full width exactly, at any screen size */}
+      <div aria-hidden className="pointer-events-none select-none px-4 sm:px-6">
+        <svg viewBox="0 0 1000 128" className="block w-full" preserveAspectRatio="xMidYMin meet">
+          <text
+            x="500"
+            y="160"
+            textAnchor="middle"
+            textLength="990"
+            lengthAdjust="spacingAndGlyphs"
+            className="font-display"
+            fontSize="172"
+            fontWeight="700"
+            fill="none"
+            stroke="rgba(255,255,255,0.13)"
+            strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
+          >
+            FITCOACH AI
+          </text>
+        </svg>
       </div>
 
       <div className="relative border-t border-line bg-ink/80">

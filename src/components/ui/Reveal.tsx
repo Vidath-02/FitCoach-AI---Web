@@ -76,6 +76,7 @@ export function SplitText({
   highlight = [],
   highlightClassName = "text-gradient",
   animateOnMount = false,
+  play = true,
 }: {
   text: string;
   className?: string;
@@ -85,11 +86,13 @@ export function SplitText({
   highlight?: string[];
   highlightClassName?: string;
   animateOnMount?: boolean;
+  /** With animateOnMount: hold the hidden state until true (e.g. until the intro finishes). */
+  play?: boolean;
 }) {
   const words = text.split(" ");
   const hl = highlight.map((w) => w.toLowerCase());
   const trigger = animateOnMount
-    ? { animate: "show" as const }
+    ? { animate: play ? ("show" as const) : ("hidden" as const) }
     : { whileInView: "show" as const, viewport: { once: true, margin: "-10% 0px" } };
 
   return (

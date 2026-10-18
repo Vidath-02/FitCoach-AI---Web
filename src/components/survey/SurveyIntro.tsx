@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Clock, Layers, RotateCcw, ShieldCheck } from "lucide-react";
+import { ArrowRight, CircleCheck, Clock, History, Layers, RotateCcw, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { site } from "@/lib/site";
 import { steps } from "./steps";
@@ -87,12 +87,17 @@ function PreviewStack() {
 export function SurveyIntro({
   onStart,
   resumeStep,
+  totalSteps,
+  submittedBefore,
   onRestart,
 }: {
   onStart: () => void;
   resumeStep: number | null;
+  totalSteps: number;
+  submittedBefore: boolean;
   onRestart: () => void;
 }) {
+  const resuming = resumeStep !== null;
   return (
     <div className="grid items-center gap-12 p-7 sm:p-12 lg:grid-cols-[1.1fr_0.9fr] lg:p-16">
       <div>
@@ -118,11 +123,31 @@ export function SurveyIntro({
           ))}
         </ul>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+        {resuming ? (
+          <div className="mt-8 flex gap-3 rounded-2xl border border-cyan/25 bg-cyan/[0.05] p-4">
+            <History className="mt-0.5 h-5 w-5 shrink-0 text-cyan" />
+            <p className="text-sm leading-relaxed text-fg/85">
+              <span className="font-medium text-fg">You have unfinished answers saved on this device</span> (step{" "}
+              {resumeStep + 1} of {totalSteps}). Pick up where you left off, or start fresh.
+            </p>
+          </div>
+        ) : (
+          submittedBefore && (
+            <div className="mt-8 flex gap-3 rounded-2xl border border-volt/25 bg-volt/[0.05] p-4">
+              <CircleCheck className="mt-0.5 h-5 w-5 shrink-0 text-volt" />
+              <p className="text-sm leading-relaxed text-fg/85">
+                <span className="font-medium text-fg">Thanks, you&apos;ve already responded on this device.</span> Sharing
+                a device? Anyone else is welcome to add their own response.
+              </p>
+            </div>
+          )
+        )}
+
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Button size="lg" magnetic icon={<ArrowRight className="h-4 w-4" />} onClick={onStart}>
-            {resumeStep !== null ? `Continue from step ${resumeStep + 1}` : "Start the survey"}
+            {resuming ? "Resume survey" : submittedBefore ? "Submit another response" : "Start the survey"}
           </Button>
-          {resumeStep !== null && (
+          {resuming && (
             <Button size="lg" variant="ghost" iconLeft={<RotateCcw className="h-4 w-4" />} onClick={onRestart}>
               Start over
             </Button>

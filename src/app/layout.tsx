@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { site } from "@/lib/site";
+import { introBootScript } from "@/lib/intro";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -50,7 +51,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${grotesk.variable} ${mono.variable}`}>
+    // suppressHydrationWarning: the boot script may add `intro-skip` to <html> before React hydrates.
+    <html lang="en" className={`${inter.variable} ${grotesk.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
+        <noscript>
+          <style>{"[data-intro-overlay]{display:none}"}</style>
+        </noscript>
+      </head>
       <body className="grain bg-ink text-fg antialiased">
         <SmoothScroll>{children}</SmoothScroll>
       </body>
