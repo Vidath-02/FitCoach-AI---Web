@@ -53,7 +53,7 @@ export function Footer() {
                   </button>
                 </li>
                 <li>
-                  <Link href="/privacy" className="text-muted transition-colors hover:text-fg">
+                  <Link href="/privacy" className="inline-flex min-h-11 items-center text-muted transition-colors hover:text-fg">
                     Privacy notice
                   </Link>
                 </li>
