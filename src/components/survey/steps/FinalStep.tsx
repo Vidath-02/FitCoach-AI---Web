@@ -89,6 +89,18 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
         I agree that my responses may be used, in anonymised form, for the FitCoach AI final-year university research
         project. My email (if provided) is only used for launch updates and, if I opted in, beta testing invitations.
       </Checkbox>
+      <p className="-mt-6 pl-1 text-xs text-subtle">
+        How your data is stored and protected:{" "}
+        <a
+          href="/privacy"
+          target="_blank"
+          rel="noreferrer"
+          className="text-muted underline underline-offset-4 transition-colors hover:text-volt"
+        >
+          read the privacy notice
+        </a>{" "}
+        (opens in a new tab, your answers stay here).
+      </p>
     </div>
   );
 }
