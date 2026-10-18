@@ -23,7 +23,7 @@ src/
 │  ├─ layout.tsx            # fonts, metadata, smooth scroll provider
 │  ├─ page.tsx              # section composition
 │  ├─ globals.css           # design tokens (@theme), utilities, slider styles
-│  └─ api/survey/route.ts   # receives survey responses → optional webhook
+│  └─ api/survey/route.ts   # validates survey responses → Supabase insert
 ├─ components/
 │  ├─ layout/               # Navbar, Footer, ScrollProgress, AmbientBackground, SmoothScroll
 │  ├─ sections/             # Hero, KeywordMarquee, About, VisionMission, Roadmap, SurveySection
@@ -42,6 +42,7 @@ src/
 └─ lib/
    ├─ site.ts               # copy, nav, roadmap dates, Phase 1 countdown target
    ├─ submitSurvey.ts       # client → /api/survey
+   ├─ supabase/server.ts    # server-only Supabase client
    └─ useScrollTo.ts        # Lenis-aware section scrolling
 ```
 
@@ -55,13 +56,24 @@ src/
 | Colours, fonts, animation tokens | `@theme` block in `src/app/globals.css` |
 | Add another 3D element | create a scene in `components/three/` and load it via `dynamic()` like `SceneCanvas.tsx` |
 
-## Collecting survey responses
+## Collecting survey responses (Supabase)
 
-Responses are POSTed to `/api/survey`. Set `SURVEY_WEBHOOK_URL` (see `.env.example`) to forward each response as JSON to any endpoint — e.g. a Google Apps Script web app writing to Google Sheets, Formspree, Make/Zapier, or your own database. Without it, responses are logged to the server console (useful for local testing).
+Responses are POSTed to `/api/survey`, validated on the server, and inserted into the Supabase table `public.survey_responses`.
 
-The survey also saves an in-progress draft to `localStorage`, so visitors can refresh and resume.
+**One-time setup**
+
+1. Supabase Dashboard → **SQL Editor** → New query → paste [`supabase/migrations/001_survey_responses.sql`](supabase/migrations/001_survey_responses.sql) → **Run**.
+2. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Project Settings → API Keys).
+
+**Security:** the publishable key can only **insert** rows (Row Level Security, no read/update/delete policy), so nobody can read responses through the public API. Optionally set the server-only `SUPABASE_SECRET_KEY`; the API route then uses it instead.
+
+**Reading the data:** Table Editor → `survey_responses` for raw rows, or query the `survey_responses_flat` view in the SQL Editor (one column per answer, feature ratings as 0/1/2) and use *Export → CSV* for analysis.
+
+Without Supabase env vars, responses are only logged to the server console (handy for local testing). The survey also saves an in-progress draft to `localStorage`, so visitors can refresh and resume.
 
 ## Deploying
 
-- **Vercel:** import the repo — no config needed. Add `SURVEY_WEBHOOK_URL` under Project → Settings → Environment Variables.
-- **Netlify:** `netlify.toml` is included (uses `@netlify/plugin-nextjs`). Add `SURVEY_WEBHOOK_URL` under Site settings → Environment variables.
+Add the same Supabase env vars to your host:
+
+- **Vercel:** import the repo, then Project → Settings → Environment Variables.
+- **Netlify:** `netlify.toml` is included (uses `@netlify/plugin-nextjs`); Site settings → Environment variables.

@@ -1,10 +1,19 @@
 import { NextResponse } from "next/server";
+import { getSupabase } from "@/lib/supabase/server";
 
 /**
- * Receives a survey response and forwards it to SURVEY_WEBHOOK_URL (if configured).
- * Kept intentionally thin — point the webhook at a Google Apps Script, Formspree,
- * Make/Zapier or your own database endpoint. Without a webhook the response is logged.
+ * Receives a survey response, validates it, and stores it in Supabase
+ * (`public.survey_responses`, see supabase/migrations/001_survey_responses.sql).
+ * Without Supabase env vars the response is only logged — handy for local dev.
  */
+
+const str = (v: unknown, max: number) => (typeof v === "string" && v.trim() ? v.trim().slice(0, max) : null);
+const strArray = (v: unknown, maxItems = 10, maxLen = 32) =>
+  Array.isArray(v) ? v.filter((x): x is string => typeof x === "string").slice(0, maxItems).map((x) => x.slice(0, maxLen)) : [];
+const int = (v: unknown, min: number, max: number) =>
+  typeof v === "number" && Number.isFinite(v) ? Math.min(max, Math.max(min, Math.round(v))) : null;
+const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
@@ -22,28 +31,60 @@ export async function POST(request: Request) {
   // Honeypot filled → silently accept and drop.
   if (data.company) return NextResponse.json({ ok: true });
 
-  const answers = data.answers;
-  if (!answers || typeof answers !== "object" || answers.consent !== true || typeof answers.ageRange !== "string") {
+  const a = data.answers;
+  if (!a || typeof a !== "object") {
+    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+  }
+
+  const ageRange = str(a.ageRange, 32);
+  const activityLevel = str(a.activityLevel, 32);
+  if (a.consent !== true || !ageRange || !activityLevel) {
     return NextResponse.json({ error: "Some required answers are missing." }, { status: 422 });
   }
 
-  const record = { answers, meta: data.meta ?? {}, receivedAt: new Date().toISOString() };
-  const webhook = process.env.SURVEY_WEBHOOK_URL;
+  const earlyAccess = a.earlyAccess === true;
+  const email = earlyAccess ? str(a.email, 254) : null;
+  if (earlyAccess && (!email || !isEmail(email))) {
+    return NextResponse.json({ error: "Please enter a valid email address." }, { status: 422 });
+  }
 
-  if (!webhook) {
-    console.info("[survey] response received (no SURVEY_WEBHOOK_URL set):", JSON.stringify(record));
+  // Email lives only in its own column, not duplicated inside `answers`.
+  const { email: _omit, ...answers } = a;
+  void _omit;
+
+  const meta = data.meta && typeof data.meta === "object" ? data.meta : {};
+  const row = {
+    age_range: ageRange,
+    gender: str(a.gender, 32),
+    occupation: str(a.occupation, 32),
+    activity_level: activityLevel,
+    goals: strArray(a.goals),
+    uses_fitness_app: str(a.usesFitnessApp, 8),
+    camera_comfort: int(a.cameraComfort, 1, 5),
+    privacy_importance: int(a.privacyImportance, 0, 100),
+    pricing: str(a.pricing, 32),
+    early_access: earlyAccess,
+    email,
+    consent: true,
+    answers,
+    meta: {
+      timezone: str(meta.timezone, 64),
+      locale: str(meta.locale, 32),
+      durationSeconds: int(meta.durationSeconds, 0, 86_400),
+      submittedAt: str(meta.submittedAt, 40),
+    },
+  };
+
+  const supabase = getSupabase();
+  if (!supabase) {
+    console.info("[survey] Supabase not configured — response logged only:", JSON.stringify(row));
     return NextResponse.json({ ok: true });
   }
 
-  try {
-    const res = await fetch(webhook, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(record),
-    });
-    if (!res.ok) throw new Error(`Webhook responded ${res.status}`);
-  } catch (err) {
-    console.error("[survey] forwarding failed:", err);
+  // No `.select()` after insert: the public key is insert-only and can't read rows back.
+  const { error } = await supabase.from("survey_responses").insert(row);
+  if (error) {
+    console.error("[survey] Supabase insert failed:", error.code, error.message);
     return NextResponse.json({ error: "We couldn't save your response. Please try again." }, { status: 502 });
   }
 
