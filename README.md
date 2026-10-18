@@ -62,12 +62,12 @@ Responses are POSTed to `/api/survey`, validated on the server, and inserted int
 
 **One-time setup**
 
-1. Supabase Dashboard → **SQL Editor** → New query → paste [`supabase/migrations/001_survey_responses.sql`](supabase/migrations/001_survey_responses.sql) → **Run**.
+1. Supabase Dashboard → **SQL Editor** → run each file in [`supabase/migrations/`](supabase/migrations/) in order (`001_…`, then `002_…`). Paste the file contents into a new query and click **Run**.
 2. Copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Project Settings → API Keys).
 
 **Security:** the publishable key can only **insert** rows (Row Level Security, no read/update/delete policy), so nobody can read responses through the public API. Optionally set the server-only `SUPABASE_SECRET_KEY`; the API route then uses it instead.
 
-**Reading the data:** Table Editor → `survey_responses` for raw rows, or query the `survey_responses_flat` view in the SQL Editor (one column per answer, feature ratings as 0/1/2) and use *Export → CSV* for analysis.
+**Reading the data:** Table Editor → `survey_responses` for raw rows, or query the `survey_responses_flat` view in the SQL Editor (one column per answer, feature ratings as 0/1/2, and a `survey_version` column so v1 and v2 responses can be separated) and use *Export → CSV* for analysis.
 
 Without Supabase env vars, responses are only logged to the server console (handy for local testing). The survey also saves an in-progress draft to `localStorage`, so visitors can refresh and resume.
 

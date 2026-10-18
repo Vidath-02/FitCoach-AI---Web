@@ -5,6 +5,7 @@ import { AlertCircle, ArrowLeft, ArrowRight, Check, CornerDownLeft, LoaderCircle
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { submitSurvey } from "@/lib/submitSurvey";
+import { site } from "@/lib/site";
 import { useScrollTo } from "@/lib/useScrollTo";
 import { cn } from "@/lib/utils";
 import { steps } from "./steps";
@@ -13,7 +14,8 @@ import { SurveySuccess } from "./SurveySuccess";
 import { initialAnswers, type SurveyAnswers, type Update } from "./types";
 import { validators } from "./validation";
 
-const STORAGE_KEY = "fitcoach-survey-draft-v1";
+// Bump the version when steps change, so old drafts don't resume on the wrong step.
+const STORAGE_KEY = "fitcoach-survey-draft-v2";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 type Phase = "intro" | "steps" | "done";
@@ -75,6 +77,7 @@ function ProgressRing({ value }: { value: number }) {
           strokeWidth="4"
           strokeLinecap="round"
           strokeDasharray={c}
+          initial={{ strokeDashoffset: c }}
           animate={{ strokeDashoffset: c * (1 - value) }}
           transition={{ duration: 0.8, ease }}
         />
@@ -100,7 +103,7 @@ function StepRail({
   onJump: (i: number) => void;
 }) {
   const progress = current / steps.length;
-  const minutesLeft = Math.max(1, Math.round(((steps.length - current) / steps.length) * 3));
+  const minutesLeft = Math.max(1, Math.round(((steps.length - current) / steps.length) * site.surveyMinutes));
   return (
     <aside className="hidden flex-col border-r border-line p-8 lg:flex">
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Your progress</p>

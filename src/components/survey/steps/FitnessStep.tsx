@@ -1,5 +1,5 @@
 import { Chips, OptionCards, Question, RangeSlider } from "../controls";
-import { activityLevels, goals, trainingPlaces } from "../options";
+import { activityLevels, coachOptions, goals, trainingExperience, trainingPlaces } from "../options";
 import type { StepProps } from "../types";
 
 export function FitnessStep({ answers, update }: StepProps) {
@@ -11,6 +11,17 @@ export function FitnessStep({ answers, update }: StepProps) {
           options={activityLevels}
           value={answers.activityLevel}
           onChange={(v) => update("activityLevel", v as string)}
+        />
+      </Question>
+
+      <Question title="How long have you been working out?" optional>
+        <OptionCards
+          label="Training experience"
+          options={trainingExperience}
+          value={answers.trainingExperience}
+          onChange={(v) => update("trainingExperience", v as string)}
+          columns={3}
+          size="sm"
         />
       </Question>
 
@@ -49,6 +60,17 @@ export function FitnessStep({ answers, update }: StepProps) {
           options={trainingPlaces}
           value={answers.trainingPlaces}
           onChange={(v) => update("trainingPlaces", v)}
+        />
+      </Question>
+
+      <Question title="Do you work with a personal trainer or coach?" optional>
+        <OptionCards
+          label="Personal trainer or coach"
+          options={coachOptions}
+          value={answers.hasCoach}
+          onChange={(v) => update("hasCoach", v as string)}
+          columns={4}
+          size="sm"
         />
       </Question>
     </div>

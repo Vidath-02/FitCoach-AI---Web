@@ -562,3 +562,80 @@ export function Checkbox({
     </button>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  Follow-up question that slides in when `show` is true              */
+/* ------------------------------------------------------------------ */
+export function FollowUp({ show, children }: { show: boolean; children: React.ReactNode }) {
+  return (
+    <AnimatePresence initial={false}>
+      {show && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="overflow-hidden"
+        >
+          <div className="border-l-2 border-volt/30 pl-5 pt-1">{children}</div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Number scale (e.g. 0 to 10 likelihood)                             */
+/* ------------------------------------------------------------------ */
+export function NumberScale({
+  value,
+  onChange,
+  min = 0,
+  max = 10,
+  lowLabel,
+  highLabel,
+  label,
+}: {
+  value: number | null;
+  onChange: (v: number) => void;
+  min?: number;
+  max?: number;
+  lowLabel: string;
+  highLabel: string;
+  label: string;
+}) {
+  const nums = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+  return (
+    <div>
+      <div role="radiogroup" aria-label={label} className="grid grid-cols-6 gap-2 sm:grid-cols-11">
+        {nums.map((n) => {
+          const on = value === n;
+          return (
+            <motion.button
+              key={n}
+              type="button"
+              role="radio"
+              aria-checked={on}
+              onClick={() => onChange(n)}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.92 }}
+              transition={spring}
+              className={cn(
+                "h-12 rounded-xl border font-mono text-sm tabular-nums transition-colors duration-300",
+                on
+                  ? "border-volt bg-volt font-semibold text-ink shadow-[0_8px_30px_-12px_rgba(200,255,61,0.9)]"
+                  : "border-line bg-white/[0.025] text-fg/85 hover:border-line-strong hover:text-fg",
+              )}
+            >
+              {n}
+            </motion.button>
+          );
+        })}
+      </div>
+      <div className="mt-2.5 flex justify-between font-mono text-[10px] uppercase tracking-[0.15em] text-subtle">
+        <span>{lowLabel}</span>
+        <span>{highLabel}</span>
+      </div>
+    </div>
+  );
+}

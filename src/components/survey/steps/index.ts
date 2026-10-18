@@ -1,8 +1,9 @@
-import { Camera, Dumbbell, LineChart, MessageSquareHeart, Sparkles, UserRound, type LucideIcon } from "lucide-react";
+import { Bot, Camera, Dumbbell, LineChart, MessageSquareHeart, Sparkles, UserRound, type LucideIcon } from "lucide-react";
 import { AboutYouStep } from "./AboutYouStep";
 import { FitnessStep } from "./FitnessStep";
 import { TrackingStep } from "./TrackingStep";
 import { BodyScanStep } from "./BodyScanStep";
+import { CoachStep } from "./CoachStep";
 import { FeaturesStep } from "./FeaturesStep";
 import { FinalStep } from "./FinalStep";
 import type { StepProps } from "../types";
@@ -49,6 +50,14 @@ export const steps: StepDef[] = [
     subtitle: "This is the heart of FitCoach AI, so your honest take matters most here.",
     icon: Camera,
     Component: BodyScanStep,
+  },
+  {
+    id: "coach",
+    short: "AI coach",
+    title: "Your ideal AI coach.",
+    subtitle: "How it talks, how often it checks in, and how far you would trust it.",
+    icon: Bot,
+    Component: CoachStep,
   },
   {
     id: "features",

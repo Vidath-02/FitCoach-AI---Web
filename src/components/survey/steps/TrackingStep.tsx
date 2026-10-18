@@ -1,5 +1,5 @@
-import { Chips, OptionCards, Question, RangeSlider } from "../controls";
-import { challenges, measurementMethods, trackingMethods, yesNo } from "../options";
+import { Chips, FollowUp, OptionCards, Question, RangeSlider } from "../controls";
+import { appDropReasons, appsUsed, challenges, measurementMethods, trackingMethods, yesNo } from "../options";
 import type { StepProps } from "../types";
 
 const satisfactionLabel = (v: number) =>
@@ -16,6 +16,23 @@ export function TrackingStep({ answers, update }: StepProps) {
           onChange={(v) => update("usesFitnessApp", v as "yes" | "no" | "")}
         />
       </Question>
+
+      <FollowUp show={answers.usesFitnessApp === "yes"}>
+        <Question title="Which apps or devices do you use?" hint="Select all that apply." optional>
+          <Chips label="Apps used" options={appsUsed} value={answers.appsUsed} onChange={(v) => update("appsUsed", v)} />
+        </Question>
+      </FollowUp>
+
+      <FollowUp show={answers.usesFitnessApp === "no"}>
+        <Question title="What's kept you from using one?" hint="Select all that apply." optional>
+          <Chips
+            label="Reasons for not using a fitness app"
+            options={appDropReasons}
+            value={answers.appDropReasons}
+            onChange={(v) => update("appDropReasons", v)}
+          />
+        </Question>
+      </FollowUp>
 
       <Question title="How do you track your progress today?" hint="Select all that apply.">
         <Chips
@@ -54,7 +71,7 @@ export function TrackingStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="What's your biggest fitness challenge?">
+      <Question title="What's your biggest fitness challenge?" optional>
         <OptionCards
           label="Biggest challenge"
           options={challenges}

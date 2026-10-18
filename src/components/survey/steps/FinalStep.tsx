@@ -1,13 +1,23 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { Checkbox, Question, TextArea, TextField, Toggle } from "../controls";
+import { Checkbox, FollowUp, NumberScale, Question, TextArea, TextField, Toggle } from "../controls";
 import type { StepProps } from "../types";
 import { isEmail } from "../validation";
 
 export function FinalStep({ answers, update, showErrors }: StepProps & { showErrors: boolean }) {
-  const emailInvalid = showErrors && answers.earlyAccess && !isEmail(answers.email);
+  const needsEmail = answers.earlyAccess || answers.betaTester;
+  const emailInvalid = showErrors && needsEmail && !isEmail(answers.email);
 
   return (
     <div className="space-y-10">
+      <Question title="How likely are you to try FitCoach AI when it launches?">
+        <NumberScale
+          label="Likelihood to try FitCoach AI, 0 to 10"
+          value={answers.launchLikelihood}
+          onChange={(v) => update("launchLikelihood", v)}
+          lowLabel="0 · Not at all"
+          highLabel="10 · Definitely"
+        />
+      </Question>
+
       <Question title="What's one feature that would make you use FitCoach AI every week?" optional>
         <TextArea
           label="Feature wishlist"
@@ -35,30 +45,26 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
             label="Get early access to Phase 1"
             description="You'll get one email when the January release is ready. No spam."
           />
-          <AnimatePresence initial={false}>
-            {answers.earlyAccess && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="overflow-hidden"
-              >
-                <div className="pt-1">
-                  <TextField
-                    type="email"
-                    label="Email address"
-                    value={answers.email}
-                    onChange={(v) => update("email", v)}
-                    placeholder="you@example.com"
-                    autoComplete="email"
-                    invalid={emailInvalid}
-                  />
-                  {emailInvalid && <p className="mt-2 pl-1 text-xs text-danger">Please enter a valid email, or turn off early access.</p>}
-                </div>
-              </motion.div>
+          <Toggle
+            checked={answers.betaTester}
+            onChange={(v) => update("betaTester", v)}
+            label="Help test the beta"
+            description="Try early builds and share quick feedback. Around 20 minutes of your time."
+          />
+          <FollowUp show={needsEmail}>
+            <TextField
+              type="email"
+              label="Email address"
+              value={answers.email}
+              onChange={(v) => update("email", v)}
+              placeholder="you@example.com"
+              autoComplete="email"
+              invalid={emailInvalid}
+            />
+            {emailInvalid && (
+              <p className="mt-2 pl-1 text-xs text-danger">Please enter a valid email, or turn off the options above.</p>
             )}
-          </AnimatePresence>
+          </FollowUp>
         </div>
       </Question>
 
@@ -75,7 +81,7 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
 
       <Checkbox checked={answers.consent} onChange={(v) => update("consent", v)} invalid={showErrors && !answers.consent}>
         I agree that my responses may be used, in anonymised form, for the FitCoach AI final-year university research
-        project. My email (if provided) is only used to send launch updates.
+        project. My email (if provided) is only used for launch updates and, if I opted in, beta testing invitations.
       </Checkbox>
     </div>
   );

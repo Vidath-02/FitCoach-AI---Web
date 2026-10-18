@@ -1,5 +1,5 @@
 import { OptionCards, Question, TextField } from "../controls";
-import { ageRanges, genders, occupations } from "../options";
+import { ageRanges, genders, occupations, regions } from "../options";
 import type { StepProps } from "../types";
 
 export function AboutYouStep({ answers, update }: StepProps) {
@@ -33,6 +33,17 @@ export function AboutYouStep({ answers, update }: StepProps) {
           value={answers.gender}
           onChange={(v) => update("gender", v as string)}
           columns={4}
+          size="sm"
+        />
+      </Question>
+
+      <Question title="Where are you based?" optional>
+        <OptionCards
+          label="Region"
+          options={regions}
+          value={answers.region}
+          onChange={(v) => update("region", v as string)}
+          columns={3}
           size="sm"
         />
       </Question>

@@ -9,7 +9,7 @@ export const site = {
   description:
     "FitCoach AI uses computer vision to estimate body measurements from your phone camera and turns them into personalised, motivating fitness tracking. Help shape it by taking the pre-launch survey.",
   url: "https://fitcoach-ai.vercel.app",
-  surveyMinutes: 3,
+  surveyMinutes: 5,
 };
 
 /** The person behind the project, shown in the About section and footer. */

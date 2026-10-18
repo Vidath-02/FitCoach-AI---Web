@@ -1,6 +1,6 @@
 import { Camera, Lock } from "lucide-react";
-import { EmojiScale, OptionCards, Question, RangeSlider } from "../controls";
-import { comfortScale, scanFrequencies } from "../options";
+import { Chips, EmojiScale, OptionCards, Question, RangeSlider } from "../controls";
+import { accuracyNeeds, comfortScale, photoStorage, scanClothing, scanFrequencies, scanMeasurements } from "../options";
 import type { StepProps } from "../types";
 
 const privacyLabel = (v: number) =>
@@ -26,6 +26,45 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
+      <Question title="Which measurements would you want FitCoach AI to estimate?" hint="Select all that apply.">
+        <Chips
+          label="Measurements wanted"
+          options={scanMeasurements}
+          value={answers.scanMeasurements}
+          onChange={(v) => update("scanMeasurements", v)}
+        />
+      </Question>
+
+      <Question title="How accurate would the estimates need to be for you to trust them?">
+        <OptionCards
+          label="Accuracy needed"
+          options={accuracyNeeds}
+          value={answers.accuracyNeed}
+          onChange={(v) => update("accuracyNeed", v as string)}
+          size="sm"
+        />
+      </Question>
+
+      <Question title="What would you be comfortable wearing for a scan?" optional>
+        <OptionCards
+          label="Clothing for a scan"
+          options={scanClothing}
+          value={answers.scanClothing}
+          onChange={(v) => update("scanClothing", v as string)}
+          size="sm"
+        />
+      </Question>
+
+      <Question title="What should happen to your scan photos?">
+        <OptionCards
+          label="Photo storage preference"
+          options={photoStorage}
+          value={answers.photoStorage}
+          onChange={(v) => update("photoStorage", v as string)}
+          size="sm"
+        />
+      </Question>
+
       <Question title="How important is the privacy of your body data?">
         <RangeSlider
           label="Privacy importance from 0 to 100"
@@ -44,7 +83,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How often would you scan to track progress?">
+      <Question title="How often would you scan to track progress?" optional>
         <OptionCards
           label="Scan frequency"
           options={scanFrequencies}

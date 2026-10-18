@@ -105,9 +105,11 @@ export function SurveySuccess({ answers, onAnother }: { answers: SurveyAnswers; 
         className="mt-5 max-w-xl leading-relaxed text-muted"
       >
         Your response has been recorded.{" "}
-        {answers.earlyAccess && answers.email
-          ? "You're on the early-access list, and you'll get an email when Phase 1 is ready in January."
-          : "Keep an eye out for Phase 1 in January."}
+        {answers.betaTester && answers.email
+          ? "You're on the beta tester list. I'll email you when the first build is ready to try."
+          : answers.earlyAccess && answers.email
+            ? "You're on the early-access list, and you'll get an email when Phase 1 is ready in January."
+            : "Keep an eye out for Phase 1 in January."}
       </motion.p>
 
       {(answers.goals.length > 0 || mustHaves.length > 0) && (

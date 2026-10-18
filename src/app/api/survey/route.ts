@@ -43,8 +43,9 @@ export async function POST(request: Request) {
   }
 
   const earlyAccess = a.earlyAccess === true;
-  const email = earlyAccess ? str(a.email, 254) : null;
-  if (earlyAccess && (!email || !isEmail(email))) {
+  const betaTester = a.betaTester === true;
+  const email = earlyAccess || betaTester ? str(a.email, 254) : null;
+  if ((earlyAccess || betaTester) && (!email || !isEmail(email))) {
     return NextResponse.json({ error: "Please enter a valid email address." }, { status: 422 });
   }
 
@@ -72,6 +73,7 @@ export async function POST(request: Request) {
       locale: str(meta.locale, 32),
       durationSeconds: int(meta.durationSeconds, 0, 86_400),
       submittedAt: str(meta.submittedAt, 40),
+      surveyVersion: str(meta.surveyVersion, 8),
     },
   };
 

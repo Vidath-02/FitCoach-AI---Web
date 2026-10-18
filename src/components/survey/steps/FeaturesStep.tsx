@@ -1,5 +1,5 @@
 import { Chips, FeatureRating, OptionCards, Question } from "../controls";
-import { features, platforms, pricing } from "../options";
+import { dailyTimes, features, platforms, pricing } from "../options";
 import type { StepProps } from "../types";
 
 export function FeaturesStep({ answers, update }: StepProps) {
@@ -9,7 +9,7 @@ export function FeaturesStep({ answers, update }: StepProps) {
     <div className="space-y-10">
       <Question
         title="Which features matter to you?"
-        hint={`Rate each one. Must-haves get built first.${mustCount ? ` (${mustCount} must-have${mustCount > 1 ? "s" : ""} so far)` : ""}`}
+        hint={`Rate at least 3. Must-haves get built first.${mustCount ? ` (${mustCount} must-have${mustCount > 1 ? "s" : ""} so far)` : ""}`}
       >
         <div className="grid gap-3">
           {features.map((f) => (
@@ -23,8 +23,19 @@ export function FeaturesStep({ answers, update }: StepProps) {
         </div>
       </Question>
 
-      <Question title="Where would you use FitCoach AI?" hint="Select all that apply.">
+      <Question title="Where would you use FitCoach AI?" hint="Select all that apply." optional>
         <Chips label="Platforms" options={platforms} value={answers.platforms} onChange={(v) => update("platforms", v)} />
+      </Question>
+
+      <Question title="How much time would you spend in the app each day?" optional>
+        <OptionCards
+          label="Daily time in the app"
+          options={dailyTimes}
+          value={answers.dailyTime}
+          onChange={(v) => update("dailyTime", v as string)}
+          columns={4}
+          size="sm"
+        />
       </Question>
 
       <Question title="Which pricing model feels fair?">
