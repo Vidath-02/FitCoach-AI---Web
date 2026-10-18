@@ -2,10 +2,10 @@ import { Chips, OptionCards, Question, RangeSlider } from "../controls";
 import { activityLevels, coachOptions, goals, trainingExperience, trainingPlaces } from "../options";
 import type { StepProps } from "../types";
 
-export function FitnessStep({ answers, update }: StepProps) {
+export function FitnessStep({ answers, update, showErrors }: StepProps) {
   return (
     <div className="space-y-10">
-      <Question title="How active are you right now?">
+      <Question title="How active are you right now?" invalid={showErrors && !answers.activityLevel}>
         <OptionCards
           label="Activity level"
           options={activityLevels}
@@ -14,7 +14,7 @@ export function FitnessStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How long have you been working out?" optional>
+      <Question title="How long have you been working out?" invalid={showErrors && !answers.trainingExperience}>
         <OptionCards
           label="Training experience"
           options={trainingExperience}
@@ -43,7 +43,7 @@ export function FitnessStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="What are your main goals?" hint="Pick as many as you like.">
+      <Question title="What are your main goals?" hint="Pick as many as you like." invalid={showErrors && answers.goals.length === 0}>
         <OptionCards
           label="Fitness goals"
           options={goals}
@@ -54,16 +54,17 @@ export function FitnessStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="Where do you usually train?" optional>
+      <Question title="Where do you usually train?" invalid={showErrors && answers.trainingPlaces.length === 0}>
         <Chips
           label="Training places"
           options={trainingPlaces}
           value={answers.trainingPlaces}
           onChange={(v) => update("trainingPlaces", v)}
+          exclusive="none"
         />
       </Question>
 
-      <Question title="Do you work with a personal trainer or coach?" optional>
+      <Question title="Do you work with a personal trainer or coach?" invalid={showErrors && !answers.hasCoach}>
         <OptionCards
           label="Personal trainer or coach"
           options={coachOptions}

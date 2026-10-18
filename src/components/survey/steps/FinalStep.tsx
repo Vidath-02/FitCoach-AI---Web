@@ -8,7 +8,7 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
 
   return (
     <div className="space-y-10">
-      <Question title="How likely are you to try FitCoach AI when it launches?">
+      <Question title="How likely are you to try FitCoach AI when it launches?" invalid={showErrors && answers.launchLikelihood === null}>
         <NumberScale
           label="Likelihood to try FitCoach AI, 0 to 10"
           value={answers.launchLikelihood}

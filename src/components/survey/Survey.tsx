@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { submitSurvey } from "@/lib/submitSurvey";
 import { site } from "@/lib/site";
 import { useScrollTo } from "@/lib/useScrollTo";
+import { useLenis } from "lenis/react";
 import { cn } from "@/lib/utils";
 import { steps } from "./steps";
 import { SurveyIntro } from "./SurveyIntro";
@@ -199,6 +200,7 @@ function MobileProgress({ current }: { current: number }) {
 /* ------------------------------------------------------------------ */
 export function Survey() {
   const scrollTo = useScrollTo();
+  const lenis = useLenis();
   const cardRef = useRef<HTMLDivElement>(null);
   const shake = useAnimationControls();
 
@@ -279,6 +281,15 @@ export function Survey() {
       setError(msg);
       setShowErrors(true);
       shake.start({ x: [0, -10, 10, -6, 6, 0], transition: { duration: 0.45 } });
+      // After the highlights render, bring the first unanswered question into view.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          const first = cardRef.current?.querySelector<HTMLElement>("[data-invalid]");
+          if (!first) return;
+          if (lenis) lenis.scrollTo(first, { offset: -130, duration: 1 });
+          else first.scrollIntoView({ behavior: "smooth", block: "center" });
+        }),
+      );
       return;
     }
     if (step < steps.length - 1) return goTo(step + 1);

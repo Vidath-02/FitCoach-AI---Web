@@ -70,7 +70,10 @@ const sections: { title: string; body: React.ReactNode }[] = [
     title: "Your choices",
     body: (
       <ul className="list-disc space-y-2 pl-5">
-        <li>Most questions are optional, and you can stop at any time. Nothing is sent until you press submit.</li>
+        <li>
+          Personal questions include a &ldquo;Prefer not to say&rdquo; option, your name is optional, and you can stop at
+          any time. Nothing is sent until you press submit.
+        </li>
         <li>
           Unfinished answers are saved only in your own browser so you can resume, and they&apos;re cleared when you
           submit.

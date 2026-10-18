@@ -2,10 +2,10 @@ import { Chips, EmojiScale, OptionCards, Question } from "../controls";
 import { checkInFrequencies, coachStyles, dietPreferences, motivators, trustScale } from "../options";
 import type { StepProps } from "../types";
 
-export function CoachStep({ answers, update }: StepProps) {
+export function CoachStep({ answers, update, showErrors }: StepProps) {
   return (
     <div className="space-y-10">
-      <Question title="How should your AI coach talk to you?">
+      <Question title="How should your AI coach talk to you?" invalid={showErrors && !answers.coachStyle}>
         <OptionCards
           label="Coaching style"
           options={coachStyles}
@@ -15,7 +15,7 @@ export function CoachStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How often would you like it to check in?" optional>
+      <Question title="How often would you like it to check in?" invalid={showErrors && !answers.checkInFrequency}>
         <OptionCards
           label="Check-in frequency"
           options={checkInFrequencies}
@@ -26,15 +26,21 @@ export function CoachStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How much would you trust workout and meal advice from an AI?">
+      <Question title="How much would you trust workout and meal advice from an AI?" invalid={showErrors && !answers.aiTrust}>
         <EmojiScale label="Trust in AI advice" options={trustScale} value={answers.aiTrust} onChange={(v) => update("aiTrust", v)} />
       </Question>
 
-      <Question title="What keeps you motivated?" hint="Select all that apply." optional>
-        <Chips label="Motivators" options={motivators} value={answers.motivators} onChange={(v) => update("motivators", v)} />
+      <Question title="What keeps you motivated?" hint="Select all that apply." invalid={showErrors && answers.motivators.length === 0}>
+        <Chips
+          label="Motivators"
+          options={motivators}
+          value={answers.motivators}
+          onChange={(v) => update("motivators", v)}
+          exclusive="unsure"
+        />
       </Question>
 
-      <Question title="Any dietary preferences for meal guidance?" hint="Select all that apply." optional>
+      <Question title="Any dietary preferences for meal guidance?" hint="Select all that apply." invalid={showErrors && answers.dietPreference.length === 0}>
         <Chips
           label="Dietary preferences"
           options={dietPreferences}
