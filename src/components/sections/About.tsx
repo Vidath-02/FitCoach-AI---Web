@@ -108,11 +108,12 @@ export function About() {
             </SpotlightCard>
           </Reveal>
 
-          <div className="grid gap-5 lg:col-span-3">
+          {/* Label stays on top; the three cards share the remaining height evenly. */}
+          <div className="flex flex-col gap-5 lg:col-span-3">
             <Reveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-subtle">How it works</p>
             </Reveal>
-            <Stagger className="grid gap-5 sm:grid-cols-3 lg:grid-cols-1" stagger={0.12}>
+            <Stagger className="grid flex-1 gap-5 sm:grid-cols-3 lg:grid-cols-1 lg:grid-rows-3" stagger={0.12}>
               {steps.map((s, i) => (
                 <motion.div key={s.title} variants={staggerItem}>
                   <SpotlightCard className="h-full p-6 lg:p-7">
