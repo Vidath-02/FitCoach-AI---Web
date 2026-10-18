@@ -8,6 +8,7 @@ import { SplitText } from "@/components/ui/Reveal";
 import { BodyScanCanvas } from "@/components/three/SceneCanvas";
 import { site } from "@/lib/site";
 import { useScrollTo } from "@/lib/useScrollTo";
+import { useIntro } from "@/components/intro/IntroProvider";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ function MeasureTag({
   side,
   delay,
 }: (typeof tags)[number] & { delay: number }) {
+  const { done } = useIntro();
   const [value, setValue] = useState(base);
   useEffect(() => {
     const id = setInterval(() => setValue(base + (Math.random() - 0.5) * 0.6), 1400 + delay * 400);
@@ -38,7 +40,7 @@ function MeasureTag({
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9, x: side === "left" ? -12 : 12 }}
-      animate={{ opacity: 1, scale: 1, x: 0 }}
+      animate={done ? { opacity: 1, scale: 1, x: 0 } : undefined}
       transition={{ duration: 1, ease, delay: 1.2 + delay * 0.15 }}
       className={cn("absolute z-10 hidden sm:block", pos)}
     >
@@ -70,6 +72,7 @@ function FigureFallback() {
 
 export function Hero() {
   const scrollTo = useScrollTo();
+  const { done } = useIntro();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   // Parallax only when the columns sit side by side; stacked (mobile) it would overlap the scene.
@@ -95,28 +98,32 @@ export function Hero() {
         <motion.div style={{ y: contentY, opacity: contentOpacity }} className="relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={done ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.9, ease, delay: 0.2 }}
             className="inline-flex items-center gap-3 rounded-full border border-line bg-white/[0.03] py-1.5 pl-1.5 pr-4 backdrop-blur"
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-volt px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink">
+            <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-volt px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink">
               <Sparkles className="h-3 w-3" /> Pre-launch
             </span>
-            <span className="text-xs text-muted sm:text-sm">AI body measurement · Phase 1 in January</span>
+            <span className="whitespace-nowrap text-xs text-muted sm:text-sm">
+              <span className="hidden sm:inline">AI body measurement · </span>Phase 1 in January
+            </span>
           </motion.div>
 
           <h1 className="mt-8 font-display text-[clamp(2.9rem,7.2vw,6.2rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-balance">
             <SplitText
               text="A new standard in fitness is coming."
               highlight={["fitness"]}
+              highlightClassName="text-gradient gradient-drift"
               delay={0.35}
               animateOnMount
+              play={done}
             />
           </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={done ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 1, ease, delay: 0.9 }}
             className="mt-7 max-w-xl text-base leading-relaxed text-muted text-pretty sm:text-lg"
           >
@@ -126,7 +133,7 @@ export function Hero() {
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={done ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 1, ease, delay: 1.05 }}
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
@@ -140,7 +147,7 @@ export function Hero() {
 
           <motion.dl
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={done ? { opacity: 1 } : undefined}
             transition={{ duration: 1.2, delay: 1.3 }}
             className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6"
           >
@@ -162,7 +169,7 @@ export function Hero() {
         <motion.div
           style={{ y: sceneY, scale: sceneScale }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={done ? { opacity: 1 } : undefined}
           transition={{ duration: 2, delay: 0.4 }}
           className="relative mx-auto aspect-[4/5] w-full max-w-[520px] lg:-mr-10"
         >
@@ -189,7 +196,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollTo("about")}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={done ? { opacity: 1 } : undefined}
         transition={{ delay: 2 }}
         className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-subtle transition-colors hover:text-fg md:flex"
         aria-label="Scroll to learn more"

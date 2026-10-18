@@ -16,6 +16,10 @@ import { validators } from "./validation";
 
 // Bump the version when steps change, so old drafts don't resume on the wrong step.
 const STORAGE_KEY = "fitcoach-survey-draft-v2";
+/** Set after a successful submit, so a returning visitor sees a thank-you instead of a fresh survey. */
+const SUBMITTED_KEY = "fitcoach-survey-submitted";
+/** Unfinished drafts older than this are discarded. */
+const DRAFT_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const ease = [0.16, 1, 0.3, 1] as const;
 
 type Phase = "intro" | "steps" | "done";
@@ -25,6 +29,7 @@ interface Draft {
   step: number;
   maxStep: number;
   startedAt: number;
+  savedAt?: number;
 }
 
 const storage = {
@@ -38,7 +43,7 @@ const storage = {
   },
   save(d: Draft) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...d, savedAt: Date.now() }));
     } catch {
       /* storage unavailable; survey still works */
     }
@@ -50,7 +55,25 @@ const storage = {
       /* ignore */
     }
   },
+  markSubmitted() {
+    try {
+      localStorage.setItem(SUBMITTED_KEY, String(Date.now()));
+    } catch {
+      /* ignore */
+    }
+  },
+  submittedBefore(): boolean {
+    try {
+      return localStorage.getItem(SUBMITTED_KEY) !== null;
+    } catch {
+      return false;
+    }
+  },
 };
+
+/** A draft is worth resuming only if it's recent and the visitor actually got somewhere. */
+const isResumable = (d: Draft) =>
+  Date.now() - (d.savedAt ?? d.startedAt) < DRAFT_MAX_AGE_MS && (d.maxStep > 0 || Boolean(d.answers?.ageRange));
 
 const slide = {
   enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 60 : -60, filter: "blur(10px)" }),
@@ -189,13 +212,16 @@ export function Survey() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [resumeStep, setResumeStep] = useState<number | null>(null);
+  const [submittedBefore, setSubmittedBefore] = useState(false);
   const startedAt = useRef<number>(0);
   const hydrated = useRef(false);
 
   // Restore a saved draft on first load.
   useEffect(() => {
+    setSubmittedBefore(storage.submittedBefore());
     const draft = storage.load();
-    if (draft) {
+    if (draft && !isResumable(draft)) storage.clear();
+    else if (draft) {
       setAnswers({ ...initialAnswers, ...draft.answers });
       setStep(Math.min(draft.step, steps.length - 1));
       setMaxStep(Math.min(draft.maxStep, steps.length - 1));
@@ -263,6 +289,8 @@ export function Survey() {
     try {
       await submitSurvey(answers, startedAt.current || Date.now());
       storage.clear();
+      storage.markSubmitted();
+      setSubmittedBefore(true);
       setPhase("done");
       keepInView();
     } catch (e) {
@@ -303,7 +331,13 @@ export function Survey() {
             exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
             transition={{ duration: 0.6, ease }}
           >
-            <SurveyIntro onStart={start} resumeStep={resumeStep} onRestart={restart} />
+            <SurveyIntro
+              onStart={start}
+              resumeStep={resumeStep}
+              totalSteps={steps.length}
+              submittedBefore={submittedBefore}
+              onRestart={restart}
+            />
           </motion.div>
         )}
 

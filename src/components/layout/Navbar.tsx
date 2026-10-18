@@ -7,10 +7,12 @@ import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
 import { nav } from "@/lib/site";
 import { useScrollTo } from "@/lib/useScrollTo";
+import { useIntro } from "@/components/intro/IntroProvider";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const scrollTo = useScrollTo();
+  const { done: introDone } = useIntro();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -48,8 +50,8 @@ export function Navbar() {
     <>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
-        animate={{ y: hidden ? -100 : 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        animate={{ y: hidden || !introDone ? -100 : 0, opacity: introDone ? 1 : 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: introDone && !scrolled ? 0.35 : 0 }}
         className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6"
       >
         <nav

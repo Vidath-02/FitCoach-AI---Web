@@ -193,6 +193,36 @@
   }
 }
 
+/* Landing intro. Hidden before first paint for returning visitors / reduced motion
+   (see introBootScript), and a failsafe hides it if the page's scripts never load. */
+.intro-skip [data-intro-overlay] {
+  display: none;
+}
+[data-intro-overlay] {
+  animation: intro-failsafe 0.4s ease 8s forwards;
+}
+@keyframes intro-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Slow drifting gradient for highlighted headline words */
+.gradient-drift {
+  background-size: 200% auto;
+  animation: gradient-drift 6s ease-in-out infinite alternate;
+}
+@keyframes gradient-drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
 /* Range slider: native input with a custom thumb; the track is drawn by the component */
 .range {
   -webkit-appearance: none;

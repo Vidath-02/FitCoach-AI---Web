@@ -98,7 +98,7 @@ export function About() {
                     href={l.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.03] px-3.5 py-1.5 text-sm text-fg/85 transition-colors hover:border-volt/50 hover:text-volt"
+                    className="inline-flex h-11 items-center gap-1.5 rounded-full border border-line bg-white/[0.03] px-4 text-sm text-fg/85 transition-colors hover:border-volt/50 hover:text-volt"
                   >
                     {l.label}
                     <ArrowUpRight className="h-3.5 w-3.5" />
