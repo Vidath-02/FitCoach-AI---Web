@@ -68,16 +68,22 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
         </div>
       </Question>
 
-      {/* honeypot: hidden from people and assistive tech, bots tend to fill it */}
-      <input
-        type="text"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden
-        value={answers.company}
-        onChange={(e) => update("company", e.target.value)}
-        className="absolute -left-[9999px] h-0 w-0 opacity-0"
-      />
+      {/* Honeypot for simple bots. Fully hidden (display: none) so browser autofill and
+          password managers skip it; if it's ever filled, the response is still saved, just flagged. */}
+      <div hidden aria-hidden>
+        <input
+          type="text"
+          name="fc_extra_field"
+          tabIndex={-1}
+          autoComplete="off"
+          data-1p-ignore
+          data-lpignore="true"
+          data-bwignore
+          data-form-type="other"
+          value={answers.company}
+          onChange={(e) => update("company", e.target.value)}
+        />
+      </div>
 
       <Checkbox checked={answers.consent} onChange={(v) => update("consent", v)} invalid={showErrors && !answers.consent}>
         I agree that my responses may be used, in anonymised form, for the FitCoach AI final-year university research

@@ -36,8 +36,10 @@ export async function POST(request: Request) {
 
   const data = body as { answers?: Record<string, unknown>; meta?: Record<string, unknown>; company?: string };
 
-  // Honeypot filled → silently accept and drop.
-  if (data.company) return NextResponse.json({ ok: true });
+  // Honeypot filled: browser autofill can do this for real people, so never drop the
+  // response. Save it with a flag and decide during analysis.
+  const suspectedBot = typeof data.company === "string" && data.company.trim() !== "";
+  if (suspectedBot) console.warn("[survey] honeypot field was filled; saving with suspectedBot flag.");
 
   const a = data.answers;
   if (!a || typeof a !== "object") {
@@ -82,6 +84,7 @@ export async function POST(request: Request) {
       durationSeconds: int(meta.durationSeconds, 0, 86_400),
       submittedAt: str(meta.submittedAt, 40),
       surveyVersion: str(meta.surveyVersion, 8),
+      suspectedBot,
     },
   };
 
@@ -103,5 +106,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Your response couldn't be saved. Please try again." }, { status: 502 });
   }
 
+  console.info(`[survey] response saved (${row.meta.surveyVersion ?? "v1"}${suspectedBot ? ", suspectedBot" : ""}).`);
   return NextResponse.json({ ok: true });
 }
