@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { creator, nav, site } from "@/lib/site";
@@ -50,6 +51,11 @@ export function Footer() {
                   <button onClick={() => scrollTo("survey")} className="text-muted transition-colors hover:text-fg">
                     Join early access
                   </button>
+                </li>
+                <li>
+                  <Link href="/privacy" className="text-muted transition-colors hover:text-fg">
+                    Privacy notice
+                  </Link>
                 </li>
               </ul>
             </div>
