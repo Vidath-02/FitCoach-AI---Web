@@ -14,6 +14,14 @@ const int = (v: unknown, min: number, max: number) =>
   typeof v === "number" && Number.isFinite(v) ? Math.min(max, Math.max(min, Math.round(v))) : null;
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 
+/** Health check: reports whether responses will be stored. Never exposes keys. */
+export async function GET() {
+  return NextResponse.json(
+    { storage: getSupabase() ? "supabase" : "not-configured" },
+    { headers: { "Cache-Control": "no-store" } },
+  );
+}
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
@@ -79,7 +87,12 @@ export async function POST(request: Request) {
 
   const supabase = getSupabase();
   if (!supabase) {
-    console.info("[survey] Supabase not configured, response logged only:", JSON.stringify(row));
+    // Never report success on the live site when nothing would be saved.
+    if (process.env.NODE_ENV === "production") {
+      console.error("[survey] Supabase env vars missing; response NOT saved.");
+      return NextResponse.json({ error: "Your response couldn't be saved. Please try again." }, { status: 503 });
+    }
+    console.info("[survey] Supabase not configured (dev), response logged only:", JSON.stringify(row));
     return NextResponse.json({ ok: true });
   }
 
