@@ -7,6 +7,7 @@ import {
   ChartLine,
   Cloud,
   Dumbbell,
+  EyeOff,
   Flame,
   Footprints,
   GraduationCap,
@@ -57,6 +58,7 @@ export const occupations: Option[] = [
   { value: "professional", label: "Working professional", icon: Briefcase },
   { value: "self-employed", label: "Self-employed", icon: Building2 },
   { value: "other", label: "Something else", icon: Sparkles },
+  { value: "prefer-not", label: "Prefer not to say", icon: EyeOff },
 ];
 
 export const activityLevels: Option[] = [
@@ -81,6 +83,7 @@ export const trainingPlaces: Option[] = [
   { value: "outdoors", label: "Outdoors", icon: Mountain },
   { value: "club", label: "Sports club", icon: Trophy },
   { value: "classes", label: "Classes / studio", icon: Users },
+  { value: "none", label: "I don't train yet" },
 ];
 
 export const yesNo: Option[] = [
@@ -164,6 +167,7 @@ export const regions: Option[] = [
   { value: "europe", label: "Europe" },
   { value: "north-america", label: "North America" },
   { value: "other", label: "Somewhere else" },
+  { value: "prefer-not", label: "Prefer not to say" },
 ];
 
 /* ---------------- Fitness profile ---------------- */
@@ -271,6 +275,7 @@ export const motivators: Option[] = [
   { value: "rewards", label: "Badges & rewards" },
   { value: "coach-feedback", label: "Coach feedback" },
   { value: "records", label: "Personal records" },
+  { value: "unsure", label: "Not sure yet" },
 ];
 
 export const dietPreferences: Option[] = [

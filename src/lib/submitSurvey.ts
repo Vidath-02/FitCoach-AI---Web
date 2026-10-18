@@ -1,7 +1,7 @@
 import type { SurveyAnswers } from "@/components/survey/types";
 
 /** Bump when questions change, so responses can be told apart during analysis. */
-export const SURVEY_VERSION = "v2";
+export const SURVEY_VERSION = "v3";
 
 export interface SurveySubmission {
   answers: Omit<SurveyAnswers, "company">;

@@ -5,10 +5,10 @@ import type { StepProps } from "../types";
 const satisfactionLabel = (v: number) =>
   v <= 2 ? "Frustrated" : v <= 4 ? "Not great" : v <= 6 ? "It's okay" : v <= 8 ? "Pretty good" : "Love it";
 
-export function TrackingStep({ answers, update }: StepProps) {
+export function TrackingStep({ answers, update, showErrors }: StepProps) {
   return (
     <div className="space-y-10">
-      <Question title="Do you currently use a fitness app?">
+      <Question title="Do you currently use a fitness app?" invalid={showErrors && !answers.usesFitnessApp}>
         <OptionCards
           label="Uses a fitness app"
           options={yesNo}
@@ -18,13 +18,13 @@ export function TrackingStep({ answers, update }: StepProps) {
       </Question>
 
       <FollowUp show={answers.usesFitnessApp === "yes"}>
-        <Question title="Which apps or devices do you use?" hint="Select all that apply." optional>
+        <Question title="Which apps or devices do you use?" hint="Select all that apply." invalid={showErrors && answers.appsUsed.length === 0}>
           <Chips label="Apps used" options={appsUsed} value={answers.appsUsed} onChange={(v) => update("appsUsed", v)} />
         </Question>
       </FollowUp>
 
       <FollowUp show={answers.usesFitnessApp === "no"}>
-        <Question title="What's kept you from using one?" hint="Select all that apply." optional>
+        <Question title="What's kept you from using one?" hint="Select all that apply." invalid={showErrors && answers.appDropReasons.length === 0}>
           <Chips
             label="Reasons for not using a fitness app"
             options={appDropReasons}
@@ -34,7 +34,7 @@ export function TrackingStep({ answers, update }: StepProps) {
         </Question>
       </FollowUp>
 
-      <Question title="How do you track your progress today?" hint="Select all that apply.">
+      <Question title="How do you track your progress today?" hint="Select all that apply." invalid={showErrors && answers.trackingMethods.length === 0}>
         <Chips
           label="Tracking methods"
           options={trackingMethods}
@@ -44,7 +44,7 @@ export function TrackingStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How do you measure your body?" hint="Select all that apply.">
+      <Question title="How do you measure your body?" hint="Select all that apply." invalid={showErrors && answers.measurementMethods.length === 0}>
         <Chips
           label="Measurement methods"
           options={measurementMethods}
@@ -71,7 +71,7 @@ export function TrackingStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="What's your biggest fitness challenge?" optional>
+      <Question title="What's your biggest fitness challenge?" invalid={showErrors && !answers.biggestChallenge}>
         <OptionCards
           label="Biggest challenge"
           options={challenges}

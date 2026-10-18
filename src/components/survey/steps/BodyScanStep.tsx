@@ -6,7 +6,7 @@ import type { StepProps } from "../types";
 const privacyLabel = (v: number) =>
   v < 25 ? "Not a concern" : v < 50 ? "Somewhat important" : v < 75 ? "Very important" : "Absolutely critical";
 
-export function BodyScanStep({ answers, update }: StepProps) {
+export function BodyScanStep({ answers, update, showErrors }: StepProps) {
   return (
     <div className="space-y-10">
       <div className="flex gap-4 rounded-2xl border border-cyan/20 bg-cyan/[0.04] p-5">
@@ -17,7 +17,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         </p>
       </div>
 
-      <Question title="How comfortable would you be scanning your body with your phone camera?">
+      <Question title="How comfortable would you be scanning your body with your phone camera?" invalid={showErrors && !answers.cameraComfort}>
         <EmojiScale
           label="Camera scan comfort"
           options={comfortScale}
@@ -26,7 +26,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="Which measurements would you want FitCoach AI to estimate?" hint="Select all that apply.">
+      <Question title="Which measurements would you want FitCoach AI to estimate?" hint="Select all that apply." invalid={showErrors && answers.scanMeasurements.length === 0}>
         <Chips
           label="Measurements wanted"
           options={scanMeasurements}
@@ -35,7 +35,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How accurate would the estimates need to be for you to trust them?">
+      <Question title="How accurate would the estimates need to be for you to trust them?" invalid={showErrors && !answers.accuracyNeed}>
         <OptionCards
           label="Accuracy needed"
           options={accuracyNeeds}
@@ -45,7 +45,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="What would you be comfortable wearing for a scan?" optional>
+      <Question title="What would you be comfortable wearing for a scan?" invalid={showErrors && !answers.scanClothing}>
         <OptionCards
           label="Clothing for a scan"
           options={scanClothing}
@@ -55,7 +55,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="What should happen to your scan photos?">
+      <Question title="What should happen to your scan photos?" invalid={showErrors && !answers.photoStorage}>
         <OptionCards
           label="Photo storage preference"
           options={photoStorage}
@@ -83,7 +83,7 @@ export function BodyScanStep({ answers, update }: StepProps) {
         />
       </Question>
 
-      <Question title="How often would you scan to track progress?" optional>
+      <Question title="How often would you scan to track progress?" invalid={showErrors && !answers.scanFrequency}>
         <OptionCards
           label="Scan frequency"
           options={scanFrequencies}

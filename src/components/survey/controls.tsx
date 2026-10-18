@@ -16,18 +16,29 @@ export function Question({
   title,
   hint,
   optional,
+  invalid,
   children,
   className,
 }: {
   title: string;
   hint?: string;
   optional?: boolean;
+  /** Required but unanswered after the visitor tried to continue. */
+  invalid?: boolean;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
-    <fieldset className={cn("min-w-0", className)}>
-      <legend className="flex w-full flex-wrap items-baseline gap-x-3 gap-y-1">
+    <fieldset
+      data-invalid={invalid || undefined}
+      aria-invalid={invalid || undefined}
+      className={cn(
+        "relative min-w-0 scroll-mt-28 rounded-2xl transition-[box-shadow,background-color] duration-300",
+        invalid && "bg-danger/[0.03] shadow-[0_0_0_1px_rgba(255,93,115,0.45),0_0_0_8px_rgba(255,93,115,0.03)] -mx-3 px-3 py-3 sm:-mx-4 sm:px-4",
+        className,
+      )}
+    >
+      <legend className="float-left flex w-full flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="font-display text-lg font-semibold tracking-tight sm:text-xl">{title}</span>
         {optional && (
           <span className="rounded-full border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-subtle">
@@ -35,7 +46,20 @@ export function Question({
           </span>
         )}
       </legend>
+      <div className="clear-both" />
       {hint && <p className="mt-1.5 text-sm text-muted">{hint}</p>}
+      <AnimatePresence initial={false}>
+        {invalid && (
+          <motion.p
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-1.5 overflow-hidden text-sm text-danger"
+          >
+            Please answer this question.
+          </motion.p>
+        )}
+      </AnimatePresence>
       <div className="mt-5">{children}</div>
     </fieldset>
   );

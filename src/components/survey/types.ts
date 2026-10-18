@@ -105,4 +105,6 @@ export type Update = <K extends keyof SurveyAnswers>(key: K, value: SurveyAnswer
 export interface StepProps {
   answers: SurveyAnswers;
   update: Update;
+  /** True after the visitor tried to continue with required answers missing. */
+  showErrors?: boolean;
 }
