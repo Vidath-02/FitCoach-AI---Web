@@ -144,7 +144,7 @@ export function About() {
             />
             <Reveal delay={0.1}>
               <div className="glass relative overflow-hidden rounded-3xl p-8">
-                <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-volt/20 blur-3xl" />
+                <div className="absolute -right-10 -top-10 h-56 w-56 bg-[radial-gradient(closest-side,rgb(200_255_61/0.2),transparent)]" />
                 <p className="font-display text-6xl font-semibold tracking-[-0.04em] sm:text-7xl">
                   <Counter to={150} />
                   <span className="text-volt">+</span>

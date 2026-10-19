@@ -7,6 +7,7 @@ import { useIntro } from "./IntroProvider";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const BOOT_SECONDS = 1.8;
+const MIN_BOOT_SECONDS = 1;
 const statuses = ["Calibrating camera", "Detecting key points", "Estimating measurements", "Scan complete"];
 const word = "FITCOACH".split("");
 
@@ -75,10 +76,13 @@ export function IntroOverlay() {
   }, [finish, progress]);
 
   // Boot sequence: count to 100 while the status lines tick over, then open.
+  // On slow phones the overlay has already been on screen while the scripts loaded,
+  // so that wait counts towards the boot rather than being added on top of it.
   useEffect(() => {
     if (!active) return;
+    const waited = Math.max(0, performance.now() / 1000 - 0.6);
     const controls = animate(progress, 100, {
-      duration: BOOT_SECONDS,
+      duration: Math.max(MIN_BOOT_SECONDS, BOOT_SECONDS - waited),
       ease: [0.45, 0, 0.2, 1],
       onUpdate: (v) => setStatus(Math.min(statuses.length - 1, Math.floor((v / 100) * statuses.length))),
       onComplete: () => setTimeout(exit, 150),
@@ -138,7 +142,7 @@ export function IntroOverlay() {
         transition={{ duration: 0.35, ease }}
       >
         <div className="bg-grid mask-radial absolute inset-0 opacity-70" />
-        <div className="absolute left-1/2 top-1/2 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-volt/[0.07] blur-[90px]" />
+        <div className="absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,rgb(200_255_61/0.08),transparent)]" />
 
         {/* Full-screen scan beam */}
         <motion.div

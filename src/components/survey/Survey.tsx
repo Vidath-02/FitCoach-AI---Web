@@ -328,7 +328,7 @@ export function Survey() {
     <div
       id="survey-card"
       ref={cardRef}
-      className="relative overflow-clip rounded-[2rem] border border-line bg-surface/70 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] backdrop-blur-2xl"
+      className="relative overflow-clip rounded-[2rem] border border-line bg-surface/90 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] pointer-fine:bg-surface/70 pointer-fine:backdrop-blur-2xl"
     >
       {/* top glow line */}
       <div aria-hidden className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-volt/60 to-transparent" />
@@ -409,7 +409,7 @@ export function Survey() {
               </div>
 
               {/* Sticky action bar */}
-              <div className="sticky bottom-0 z-20 mt-auto border-t border-line bg-ink-2/85 px-6 py-4 backdrop-blur-xl sm:px-10 lg:px-12">
+              <div className="sticky bottom-0 z-20 mt-auto border-t border-line bg-ink-2/95 px-6 py-4 pointer-fine:bg-ink-2/85 pointer-fine:backdrop-blur-xl sm:px-10 lg:px-12">
                 <AnimatePresence>
                   {(error || submitError) && (
                     <motion.p
