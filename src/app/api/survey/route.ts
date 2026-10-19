@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getSupabase, supabaseKeyType } from "@/lib/supabase/server";
-import { clientIp, rateLimit } from "@/lib/rateLimit";
+import { clientDevice, clientIp, rateLimit } from "@/lib/rateLimit";
 import { cleanText, isEmail, sanitizeAnswers } from "@/lib/surveySanitize";
+import { validators } from "@/components/survey/validation";
+import type { SurveyAnswers } from "@/components/survey/types";
 
 /**
  * Receives a survey response, checks where it came from, validates every answer
@@ -11,7 +13,7 @@ import { cleanText, isEmail, sanitizeAnswers } from "@/lib/surveySanitize";
  */
 
 const MAX_BODY_CHARS = 20_000;
-const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 };
+const RATE_LIMIT = { perDevice: 5, perIp: 150, windowMs: 10 * 60 * 1000 };
 /** Finishing all 7 steps faster than this is almost certainly automated. */
 const MIN_HUMAN_SECONDS = 20;
 
@@ -39,13 +41,6 @@ export async function POST(request: Request) {
   if (!sameOrigin(request)) return fail(403, "Forbidden.");
   if (!request.headers.get("content-type")?.includes("application/json")) return fail(415, "Unsupported content type.");
 
-  const rl = rateLimit(`survey:${clientIp(request)}`, RATE_LIMIT.limit, RATE_LIMIT.windowMs);
-  if (!rl.ok) {
-    return fail(429, "Too many submissions from this device. Please try again later.", {
-      "Retry-After": String(rl.retryAfterSec),
-    });
-  }
-
   let body: unknown;
   try {
     const text = await request.text();
@@ -72,9 +67,26 @@ export async function POST(request: Request) {
       ? Math.min(86_400, Math.max(0, Math.round(rawMeta.durationSeconds)))
       : null;
 
+  // Only requests that would be stored count towards the limits, so someone fixing a
+  // rejected answer is never locked out. Campus Wi-Fi and mobile carriers put many people
+  // behind one IP, so the IP limit is generous and the tight limit is per browser tab.
+  const device = clientDevice(rawMeta.deviceId);
+  const limited = [
+    rateLimit(`survey-ip:${clientIp(request)}`, RATE_LIMIT.perIp, RATE_LIMIT.windowMs),
+    device ? rateLimit(`survey-device:${device}`, RATE_LIMIT.perDevice, RATE_LIMIT.windowMs) : null,
+  ].find((rl) => rl && !rl.ok);
+  if (limited) {
+    return fail(429, "Too many submissions from this device. Please try again later.", {
+      "Retry-After": String(limited.retryAfterSec),
+    });
+  }
+
   // Bot signals: flag, never drop. Browser autofill can trip the honeypot for real people.
   const suspectedBot = typeof data.company === "string" && data.company.trim() !== "";
   const fastSubmit = durationSeconds !== null && durationSeconds < MIN_HUMAN_SECONDS;
+  // The website never sends a response with required answers missing, so this means the
+  // API was called directly (or by a much older version of the page).
+  const incomplete = validators.some((check) => check(a as unknown as SurveyAnswers) !== null);
 
   // Email lives only in its own column, never inside `answers`.
   const { email: _omit, ...answers } = a;
@@ -102,6 +114,7 @@ export async function POST(request: Request) {
       surveyVersion: cleanText(rawMeta.surveyVersion, 8) || null,
       suspectedBot,
       fastSubmit,
+      incomplete,
     },
   };
 
@@ -123,7 +136,9 @@ export async function POST(request: Request) {
     return fail(502, "Your response couldn't be saved. Please try again.");
   }
 
-  const flags = [suspectedBot && "suspectedBot", fastSubmit && "fastSubmit"].filter(Boolean).join(", ");
+  const flags = [suspectedBot && "suspectedBot", fastSubmit && "fastSubmit", incomplete && "incomplete"]
+    .filter(Boolean)
+    .join(", ");
   console.info(`[survey] response saved (${row.meta.surveyVersion ?? "v1"}${flags ? `, ${flags}` : ""}).`);
   return NextResponse.json({ ok: true });
 }

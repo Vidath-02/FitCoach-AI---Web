@@ -163,7 +163,7 @@ export function About() {
               <motion.div key={b.title} variants={staggerItem}>
                 <SpotlightCard className="h-full p-7">
                   <b.icon className="h-6 w-6 text-volt" strokeWidth={1.6} />
-                  <h4 className="mt-10 font-display text-lg font-semibold tracking-tight">{b.title}</h4>
+                  <h3 className="mt-10 font-display text-lg font-semibold tracking-tight">{b.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{b.body}</p>
                 </SpotlightCard>
               </motion.div>

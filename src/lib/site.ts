@@ -8,7 +8,7 @@ export const site = {
   tagline: "A new standard in fitness is coming.",
   description:
     "FitCoach AI uses computer vision to estimate body measurements from your phone camera and turns them into personalised, motivating fitness tracking. Help shape it by taking the pre-launch survey.",
-  url: "https://fitcoach-ai.vercel.app",
+  url: "https://fit-coach-ai-web.vercel.app",
   surveyMinutes: 5,
 };
 

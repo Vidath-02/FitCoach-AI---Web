@@ -12,7 +12,7 @@
   --color-line-strong: rgb(255 255 255 / 0.16);
   --color-fg: #f4f6fb;
   --color-muted: #9aa3b5;
-  --color-subtle: #5d6577;
+  --color-subtle: #7a8498; /* 4.5:1+ on every surface (WCAG AA) */
 
   --color-volt: #c8ff3d;
   --color-volt-dim: #9fd41f;
