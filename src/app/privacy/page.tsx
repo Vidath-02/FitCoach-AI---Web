@@ -117,7 +117,7 @@ export default function PrivacyPage() {
 
         <div className="mt-12 space-y-5">
           {sections.map((s) => (
-            <section key={s.title} className="rounded-3xl border border-line bg-surface/60 p-6 backdrop-blur-xl sm:p-8">
+            <section key={s.title} className="rounded-3xl border border-line bg-surface/85 p-6 pointer-fine:bg-surface/60 pointer-fine:backdrop-blur-xl sm:p-8">
               <h2 className="font-display text-xl font-semibold tracking-tight">{s.title}</h2>
               <div className="mt-3 leading-relaxed text-muted">{s.body}</div>
             </section>

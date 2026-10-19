@@ -91,7 +91,7 @@ export function Hero() {
       {/* spotlight behind the figure */}
       <div
         aria-hidden
-        className="pointer-events-none absolute right-[-10%] top-[10%] h-[80vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(61,224,255,0.14),transparent)] blur-2xl"
+        className="pointer-events-none absolute right-[-10%] top-[10%] h-[80vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(61,224,255,0.14),transparent)]"
       />
 
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-6 px-6 lg:grid-cols-[1.08fr_0.92fr]">
@@ -100,7 +100,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={done ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.9, ease, delay: 0.2 }}
-            className="inline-flex items-center gap-3 rounded-full border border-line bg-white/[0.03] py-1.5 pl-1.5 pr-4 backdrop-blur"
+            className="inline-flex items-center gap-3 rounded-full border border-line bg-white/[0.03] py-1.5 pl-1.5 pr-4 pointer-fine:backdrop-blur"
           >
             <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-volt px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink">
               <Sparkles className="h-3 w-3" /> Pre-launch
@@ -180,7 +180,7 @@ export function Hero() {
                 <span key={c} className={cn("absolute h-8 w-8 rounded-[2px] border-volt/60", c)} />
               ),
             )}
-            <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full border border-line bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-volt backdrop-blur">
+            <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full border border-line bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-volt pointer-fine:backdrop-blur">
               ● Scanning
             </span>
           </div>

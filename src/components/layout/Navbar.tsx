@@ -115,7 +115,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-ink/90 backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-40 bg-ink/[0.97] pointer-fine:bg-ink/90 pointer-fine:backdrop-blur-2xl md:hidden"
             onClick={() => setOpen(false)}
           >
             <motion.ul

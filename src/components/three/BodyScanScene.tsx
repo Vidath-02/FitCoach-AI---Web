@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { BODY_MAX_Y, BODY_MIN_Y, generateBodyPoints } from "./bodyPoints";
 
@@ -210,20 +210,26 @@ function Rig({ children }: { children: React.ReactNode }) {
   return <group ref={group}>{children}</group>;
 }
 
-export default function BodyScanScene({ active = true }: { active?: boolean }) {
+/**
+ * `lite` is for phones and low-end hardware: roughly half the particles, a lower pixel
+ * ratio and no MSAA (the points are soft-edged in the shader, so it isn't missed).
+ */
+export default function BodyScanScene({ active = true, lite = false }: { active?: boolean; lite?: boolean }) {
+  const [ready, setReady] = useState(false);
   return (
     <Canvas
       frameloop={active ? "always" : "never"}
-      dpr={[1, 1.75]}
+      dpr={lite ? [1, 1.5] : [1, 1.75]}
       camera={{ position: [0, 0.05, 6.4], fov: 36 }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      style={{ background: "transparent" }}
+      gl={{ antialias: !lite, alpha: true, powerPreference: lite ? "default" : "high-performance" }}
+      onCreated={() => setReady(true)}
+      style={{ background: "transparent", opacity: ready ? 1 : 0, transition: "opacity 1.2s ease" }}
     >
       <Rig>
-        <BodyCloud />
+        <BodyCloud count={lite ? 6500 : 11000} />
         <FloorRings />
       </Rig>
-      <Dust />
+      <Dust count={lite ? 350 : 700} />
     </Canvas>
   );
 }

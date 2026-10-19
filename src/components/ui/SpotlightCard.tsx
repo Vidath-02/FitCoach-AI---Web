@@ -30,7 +30,7 @@ export function SpotlightCard({
         my.set(-400);
       }}
       className={cn(
-        "group relative overflow-hidden rounded-3xl border border-line bg-surface/60 backdrop-blur-xl",
+        "group relative overflow-hidden rounded-3xl border border-line bg-surface/85 pointer-fine:bg-surface/60 pointer-fine:backdrop-blur-xl",
         className,
       )}
     >
