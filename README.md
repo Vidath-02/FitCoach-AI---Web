@@ -65,7 +65,7 @@ Responses are POSTed to `/api/survey`, validated on the server, and inserted int
 
 **One-time setup**
 
-1. Supabase Dashboard → **SQL Editor** → run `001`, `002` and `003` from [`supabase/migrations/`](supabase/migrations/) in order. Paste each file's contents into a new query and click **Run**.
+1. Supabase Dashboard → **SQL Editor** → run `001`, `002`, `003` and `005` from [`supabase/migrations/`](supabase/migrations/) in order. Paste each file's contents into a new query and click **Run**.
 2. Copy `.env.example` to `.env.local` and fill in the Supabase URL and keys (Project Settings → API Keys).
 
 **Reading the data**
@@ -80,9 +80,9 @@ Without Supabase env vars, responses are only logged in local dev; in production
 | Layer | What it does |
 | --- | --- |
 | Security headers (`next.config.ts`) | Content Security Policy, no framing (clickjacking), `nosniff`, strict referrer, camera/mic/location disabled, HSTS |
-| API route (`src/app/api/survey/route.ts`) | Same-origin check, JSON only, 20 KB body cap, per-device rate limit (5 per 10 min), no caching |
+| API route (`src/app/api/survey/route.ts`) | Same-origin check, JSON only, 20 KB body cap, rate limits on stored responses (5 per browser tab and 150 per IP per 10 min, so shared campus or mobile IPs still work), no caching |
 | Validation (`src/lib/surveySanitize.ts`) | Allow-list: unknown fields dropped, choices must match real options, numbers clamped, text length-limited and stripped of control characters |
-| Bot handling | Hidden honeypot field and a minimum completion time. Suspicious responses are **saved with a flag, never dropped** |
+| Bot handling | Hidden honeypot field, a minimum completion time and a server-side completeness check. Suspicious responses are **saved with a flag (`suspected_bot`, `fast_submit`, `incomplete`), never dropped** |
 | Database (Supabase RLS) | The public key can never read data. After migration 004 it can't write either: only the server can insert |
 | Data minimisation | Emails stored only on opt-in, kept out of the analysis view; IPs never stored; no cookies or trackers |
 | Privacy notice | Plain-language page at `/privacy`, linked from the consent box and footer |

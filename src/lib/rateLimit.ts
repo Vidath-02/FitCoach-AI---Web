@@ -33,3 +33,8 @@ export function clientIp(request: Request): string {
   const fwd = request.headers.get("x-forwarded-for");
   return (fwd?.split(",")[0] ?? request.headers.get("x-real-ip") ?? "unknown").trim();
 }
+
+/** The browser's random per-tab id (see `submitSurvey`). Only an in-memory key, never stored. */
+export function clientDevice(id: unknown): string | null {
+  return typeof id === "string" && /^[A-Za-z0-9-]{8,64}$/.test(id) ? id : null;
+}

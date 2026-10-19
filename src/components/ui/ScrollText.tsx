@@ -42,7 +42,7 @@ export function ScrollText({
   const hl = highlight.map((w) => w.toLowerCase());
 
   return (
-    <p ref={ref} className={cn("flex flex-wrap", className)} aria-label={text}>
+    <p ref={ref} className={cn("flex flex-wrap", className)}>
       {words.map((w, i) => (
         <Word
           key={i}

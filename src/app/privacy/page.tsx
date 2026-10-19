@@ -31,8 +31,8 @@ const sections: { title: string; body: React.ReactNode }[] = [
         <li>No photos or body scans. The survey only asks about them.</li>
         <li>No cookies, analytics or advertising trackers.</li>
         <li>
-          No stored IP addresses. Your IP is used briefly in memory to stop repeated automated submissions, then
-          discarded.
+          No stored IP addresses. Your IP and a random id for your browser tab are used briefly in memory to stop
+          repeated automated submissions, then discarded. Neither is saved with your answers.
         </li>
       </ul>
     ),

@@ -101,8 +101,10 @@ export function SplitText({
       initial="hidden"
       {...trigger}
       transition={{ staggerChildren: 0.06, delayChildren: delay }}
-      aria-label={text}
     >
+      {/* Screen readers get the sentence once; the animated words below are hidden from them.
+          (aria-label isn't allowed on a plain span, so it would be ignored.) */}
+      <span className="sr-only">{text}</span>
       {words.map((word, i) => {
         const isHl = hl.includes(word.toLowerCase().replace(/[^a-z0-9]/g, ""));
         return (
