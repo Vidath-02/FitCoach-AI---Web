@@ -1,5 +1,5 @@
 import { Chips, EmojiScale, OptionCards, Question } from "../controls";
-import { checkInFrequencies, coachStyles, dietPreferences, motivators, trustScale } from "../options";
+import { checkInFrequencies, coachAuthority, coachStyles, dietPreferences, humanCoachSharing, motivators, trustScale } from "../options";
 import type { StepProps } from "../types";
 
 export function CoachStep({ answers, update, showErrors }: StepProps) {
@@ -28,6 +28,26 @@ export function CoachStep({ answers, update, showErrors }: StepProps) {
 
       <Question title="How much would you trust workout and meal advice from an AI?" invalid={showErrors && !answers.aiTrust}>
         <EmojiScale label="Trust in AI advice" options={trustScale} value={answers.aiTrust} onChange={(v) => update("aiTrust", v)} />
+      </Question>
+
+      <Question title="If the AI coach thinks your plan should change, what should it do?" invalid={showErrors && !answers.coachAuthority}>
+        <OptionCards
+          label="AI coach authority"
+          options={coachAuthority}
+          value={answers.coachAuthority}
+          onChange={(v) => update("coachAuthority", v as string)}
+          size="sm"
+        />
+      </Question>
+
+      <Question title="Would you share your FitCoach data with a real coach or trainer?" invalid={showErrors && !answers.humanCoach}>
+        <OptionCards
+          label="Sharing with a human coach"
+          options={humanCoachSharing}
+          value={answers.humanCoach}
+          onChange={(v) => update("humanCoach", v as string)}
+          size="sm"
+        />
       </Question>
 
       <Question title="What keeps you motivated?" hint="Select all that apply." invalid={showErrors && answers.motivators.length === 0}>

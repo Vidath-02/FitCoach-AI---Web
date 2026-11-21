@@ -8,6 +8,8 @@ import { IntroOverlay } from "@/components/intro/IntroOverlay";
 import { Hero } from "@/components/sections/Hero";
 import { KeywordMarquee } from "@/components/sections/KeywordMarquee";
 import { About } from "@/components/sections/About";
+import { Features } from "@/components/sections/Features";
+import { Research } from "@/components/sections/Research";
 import { VisionMission } from "@/components/sections/VisionMission";
 import { Roadmap } from "@/components/sections/Roadmap";
 import { SurveySection } from "@/components/sections/SurveySection";
@@ -24,6 +26,8 @@ export default function Home() {
         <Hero />
         <KeywordMarquee />
         <About />
+        <Features />
+        <Research />
         <VisionMission />
         <Roadmap />
         <SurveySection />

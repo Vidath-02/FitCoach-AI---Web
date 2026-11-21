@@ -1,6 +1,8 @@
 # FitCoach AI — Pre-launch Web
 
-Pre-launch landing page and interactive research survey for **FitCoach AI**, an AI-powered platform for computer-vision body measurement and fitness tracking (final-year university research project).
+Landing page and interactive research survey for **FitCoach AI**, an adaptive web gym coach with an honest, uncertainty-aware body check: 26 features in five modules, with the photo body check (measurements + body fat with a checked likely range) as the research core (final-year university research project).
+
+Site content follows the project document *FitCoach AI — Research and Solution Explanation*, v3 (21 Nov 2026).
 
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · React Three Fiber / Three.js · Lenis smooth scrolling
 
@@ -27,7 +29,7 @@ src/
 │  └─ privacy/page.tsx      # plain-language privacy notice
 ├─ components/
 │  ├─ layout/               # Navbar, Footer, ScrollProgress, AmbientBackground, SmoothScroll
-│  ├─ sections/             # Hero, KeywordMarquee, About, VisionMission, Roadmap, SurveySection
+│  ├─ sections/             # Hero, KeywordMarquee, About, Features, Research, VisionMission, Roadmap, SurveySection
 │  ├─ survey/
 │  │  ├─ Survey.tsx         # state, persistence, transitions, validation, submit
 │  │  ├─ controls.tsx       # OptionCards, Chips, RangeSlider, EmojiScale, FeatureRating, Toggle…
@@ -41,7 +43,7 @@ src/
 │  │  └─ bodyPoints.ts      # procedural human point sampler (swap for a GLTF later)
 │  └─ ui/                   # Button (magnetic), Reveal/SplitText, SpotlightCard, ScrollText, Countdown…
 └─ lib/
-   ├─ site.ts               # copy, nav, roadmap dates, Phase 1 countdown target
+   ├─ site.ts               # copy, nav, roadmap dates, countdown milestones
    ├─ submitSurvey.ts       # client → /api/survey
    ├─ supabase/server.ts    # server-only Supabase client
    ├─ surveySanitize.ts     # allow-list validation for every answer
@@ -53,7 +55,9 @@ src/
 
 | Want to change… | Edit |
 | --- | --- |
-| Roadmap dates / countdown target | `src/lib/site.ts` (`roadmap`, `PHASE_ONE_DATE`) |
+| Roadmap dates / countdown milestones | `src/lib/site.ts` (`roadmap`, `countdownMilestones`) |
+| The 26 features / module cards | `src/components/sections/Features.tsx` |
+| Research gaps, comparison table, limits | `src/components/sections/Research.tsx` |
 | Survey questions or options | `src/components/survey/options.ts` and the matching file in `steps/` |
 | Which answers are required | `src/components/survey/validation.ts` |
 | Colours, fonts, animation tokens | `@theme` block in `src/app/globals.css` |
@@ -65,12 +69,12 @@ Responses are POSTed to `/api/survey`, validated on the server, and inserted int
 
 **One-time setup**
 
-1. Supabase Dashboard → **SQL Editor** → run `001`, `002`, `003` and `005` from [`supabase/migrations/`](supabase/migrations/) in order. Paste each file's contents into a new query and click **Run**.
+1. Supabase Dashboard → **SQL Editor** → run `001`, `002`, `003`, `005` and `006` from [`supabase/migrations/`](supabase/migrations/) in order. Paste each file's contents into a new query and click **Run**.
 2. Copy `.env.example` to `.env.local` and fill in the Supabase URL and keys (Project Settings → API Keys).
 
 **Reading the data**
 
-- `survey_responses_flat`: one column per answer, anonymous (no name or email). Use this for analysis and *Export → CSV*. Filter `survey_version = 'v2'` for the 7-step survey and check `suspected_bot` / `fast_submit`.
+- `survey_responses_flat`: one column per answer, anonymous (no name or email). Use this for analysis and *Export → CSV*. Filter `survey_version = 'v4'` for the current survey (v4 adds result format, AI-coach authority, human-coach sharing and the new feature list; earlier rows are v1–v3) and check `suspected_bot` / `fast_submit`.
 - `survey_contacts`: only people who opted in to early access or beta testing. Export it separately and keep it private.
 
 Without Supabase env vars, responses are only logged in local dev; in production the API refuses to report success. Unfinished answers are saved only in the visitor's browser (`localStorage`) and cleared on submit.

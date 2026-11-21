@@ -8,7 +8,7 @@ import { useIntro } from "./IntroProvider";
 const ease = [0.16, 1, 0.3, 1] as const;
 const BOOT_SECONDS = 1.8;
 const MIN_BOOT_SECONDS = 1;
-const statuses = ["Calibrating camera", "Detecting key points", "Estimating measurements", "Scan complete"];
+const statuses = ["Checking photos", "Finding silhouette", "Estimating ranges", "Check complete"];
 const word = "FITCOACH".split("");
 
 /** Corner brackets + figure: the FitCoach AI mark, drawn like a scanner locking on. */
@@ -185,7 +185,7 @@ export function IntroOverlay() {
             transition={{ duration: 0.8, delay: 1 }}
             className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-muted"
           >
-            A new standard in fitness
+            Progress with clarity
           </motion.p>
         </div>
 

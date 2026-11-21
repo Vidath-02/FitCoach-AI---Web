@@ -27,6 +27,8 @@ export interface SurveyAnswers {
   cameraComfort: number;
   scanMeasurements: string[];
   accuracyNeed: string;
+  /** v4: one number, a likely range, or the trend */
+  resultFormat: string;
   scanClothing: string;
   photoStorage: string;
   privacyImportance: number;
@@ -35,6 +37,10 @@ export interface SurveyAnswers {
   coachStyle: string;
   checkInFrequency: string;
   aiTrust: number;
+  /** v4: should the AI coach change the plan itself, or propose? */
+  coachAuthority: string;
+  /** v4: what they would share with a human coach */
+  humanCoach: string;
   motivators: string[];
   dietPreference: string[];
   // 6 · Features & expectations
@@ -77,6 +83,7 @@ export const initialAnswers: SurveyAnswers = {
   cameraComfort: 0,
   scanMeasurements: [],
   accuracyNeed: "",
+  resultFormat: "",
   scanClothing: "",
   photoStorage: "",
   privacyImportance: 70,
@@ -84,6 +91,8 @@ export const initialAnswers: SurveyAnswers = {
   coachStyle: "",
   checkInFrequency: "",
   aiTrust: 0,
+  coachAuthority: "",
+  humanCoach: "",
   motivators: [],
   dietPreference: [],
   featureInterest: {},

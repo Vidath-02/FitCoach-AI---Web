@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, ArrowRight, Clock, ScanLine, Sparkles } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowRight, Clock, Layers, ScanLine, Sparkles } from "lucide-react";
+import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { SplitText } from "@/components/ui/Reveal";
 import { BodyScanCanvas } from "@/components/three/SceneCanvas";
@@ -14,28 +14,27 @@ import { cn } from "@/lib/utils";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/** Floating measurement tags drawn over the 3D figure (the "computer vision" HUD). */
+/**
+ * Floating result tags drawn over the 3D figure. Every value carries its likely range,
+ * which is the point of the research. Example values from the project document.
+ */
 const tags = [
-  { label: "Shoulders", base: 46.2, unit: "cm", pos: "left-[4%] top-[22%]", side: "left" as const },
-  { label: "Chest", base: 98.4, unit: "cm", pos: "right-[2%] top-[33%]", side: "right" as const },
-  { label: "Waist", base: 81.7, unit: "cm", pos: "left-[0%] top-[50%]", side: "left" as const },
-  { label: "Hip", base: 96.1, unit: "cm", pos: "right-[4%] top-[60%]", side: "right" as const },
+  { label: "Shoulders", value: "46", unit: "cm", range: "44–48", pos: "left-[4%] top-[22%]", side: "left" as const },
+  { label: "Chest", value: "98", unit: "cm", range: "95–101", pos: "right-[2%] top-[33%]", side: "right" as const },
+  { label: "Waist", value: "90", unit: "cm", range: "86–94", pos: "left-[0%] top-[50%]", side: "left" as const },
+  { label: "Body fat", value: "~26", unit: "%", range: "21–31", pos: "right-[4%] top-[60%]", side: "right" as const },
 ];
 
 function MeasureTag({
   label,
-  base,
+  value,
   unit,
+  range,
   pos,
   side,
   delay,
 }: (typeof tags)[number] & { delay: number }) {
   const { done } = useIntro();
-  const [value, setValue] = useState(base);
-  useEffect(() => {
-    const id = setInterval(() => setValue(base + (Math.random() - 0.5) * 0.6), 1400 + delay * 400);
-    return () => clearInterval(id);
-  }, [base, delay]);
 
   return (
     <motion.div
@@ -48,9 +47,10 @@ function MeasureTag({
         <div className="glass rounded-xl px-3 py-2">
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">{label}</p>
           <p className="font-mono text-sm tabular-nums text-fg">
-            {value.toFixed(1)}
+            {value}
             <span className="ml-1 text-[11px] text-volt">{unit}</span>
           </p>
+          <p className="font-mono text-[10px] tabular-nums text-muted">likely {range}</p>
         </div>
         <span className="h-px w-10 bg-gradient-to-r from-volt/0 via-volt/70 to-volt/0" />
         <span className="relative grid h-2.5 w-2.5 place-items-center">
@@ -103,17 +103,17 @@ export function Hero() {
             className="inline-flex items-center gap-3 rounded-full border border-line bg-white/[0.03] py-1.5 pl-1.5 pr-4 pointer-fine:backdrop-blur"
           >
             <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-volt px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink">
-              <Sparkles className="h-3 w-3" /> Pre-launch
+              <Sparkles className="h-3 w-3" /> In development
             </span>
             <span className="whitespace-nowrap text-xs text-muted sm:text-sm">
-              <span className="hidden sm:inline">AI body measurement · </span>Phase 1 in January
+              <span className="hidden sm:inline">Web gym coach · </span>Final-year research project
             </span>
           </motion.div>
 
           <h1 className="mt-8 font-display text-[clamp(2.9rem,7.2vw,6.2rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-balance">
             <SplitText
-              text="A new standard in fitness is coming."
-              highlight={["fitness"]}
+              text="Train with a plan. Progress with clarity."
+              highlight={["clarity"]}
               highlightClassName="text-gradient gradient-drift"
               delay={0.35}
               animateOnMount
@@ -127,8 +127,9 @@ export function Hero() {
             transition={{ duration: 1, ease, delay: 0.9 }}
             className="mt-7 max-w-xl text-base leading-relaxed text-muted text-pretty sm:text-lg"
           >
-            FitCoach AI turns your phone camera into a precision body-measurement tool, then uses those
-            numbers to track real progress and coach you forward. Help shape it from day one.
+            FitCoach AI is an adaptive web gym coach. Two phone photos give your body measurements and a
+            body-fat estimate with an honest likely range, not one falsely precise number. Your plan adapts as
+            you train, and nothing changes without your OK.
           </motion.p>
 
           <motion.div
@@ -152,9 +153,9 @@ export function Hero() {
             className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-6"
           >
             {[
-              { icon: ScanLine, k: "Phone camera", v: "body scan" },
+              { icon: ScanLine, k: "2 photos", v: "measurements + range" },
+              { icon: Layers, k: "26 features", v: "in five modules" },
               { icon: Clock, k: `~${site.surveyMinutes} minutes`, v: "to share your voice" },
-              { icon: Sparkles, k: "Jan 2027", v: "Phase 1 release" },
             ].map(({ icon: Icon, k, v }) => (
               <div key={k}>
                 <Icon className="h-4 w-4 text-volt" />
@@ -182,6 +183,9 @@ export function Hero() {
             )}
             <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full border border-line bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-volt pointer-fine:backdrop-blur">
               ● Scanning
+            </span>
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 whitespace-nowrap rounded-full border border-line bg-ink/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-subtle pointer-fine:backdrop-blur">
+              Illustration · example values
             </span>
           </div>
 

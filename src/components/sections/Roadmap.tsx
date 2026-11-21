@@ -1,21 +1,42 @@
 "use client";
 
 import { motion, useScroll, useSpring } from "framer-motion";
-import { CalendarDays, Check, Flag, Rocket } from "lucide-react";
-import { useRef } from "react";
+import { CalendarDays, FlaskConical, Flag, GraduationCap, ScanLine } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Countdown } from "@/components/ui/Countdown";
-import { PHASE_ONE_DATE, roadmap, type MilestoneStatus } from "@/lib/site";
+import { countdownMilestones, roadmap, type MilestoneStatus } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const statusStyles: Record<MilestoneStatus, { label: string; chip: string; dot: string }> = {
+  done: { label: "Done", chip: "bg-white/5 text-fg/80 ring-line-strong", dot: "bg-fg/60" },
   active: { label: "In progress", chip: "bg-volt/10 text-volt ring-volt/30", dot: "bg-volt" },
   upcoming: { label: "Next up", chip: "bg-cyan/10 text-cyan ring-cyan/30", dot: "bg-cyan" },
   planned: { label: "Planned", chip: "bg-white/5 text-muted ring-line-strong", dot: "bg-muted" },
 };
 
-const icons = [Flag, Rocket, Check];
+const icons = [Flag, ScanLine, FlaskConical, GraduationCap];
+
+/** Counts down to the next milestone still in the future. Picked in the browser so a static build never shows a passed date. */
+function NextMilestone() {
+  const [next, setNext] = useState<(typeof countdownMilestones)[number] | null>(null);
+  useEffect(() => {
+    const now = Date.now();
+    setNext(countdownMilestones.find((m) => m.date.getTime() > now) ?? countdownMilestones[countdownMilestones.length - 1]);
+  }, []);
+
+  return (
+    <>
+      <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-cyan">
+        <CalendarDays className="h-3.5 w-3.5" /> Next milestone{next ? ` · ${next.label}` : ""}
+      </p>
+      <div className="mt-5">
+        <Countdown target={(next ?? countdownMilestones[0]).date} />
+      </div>
+    </>
+  );
+}
 
 export function Roadmap() {
   const timeline = useRef<HTMLDivElement>(null);
@@ -27,19 +48,14 @@ export function Roadmap() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
           <SectionHeading
-            eyebrow="03 / Roadmap"
-            title="Launching sooner than you think."
-            highlight={["sooner"]}
-            description="I'm building in the open. Here's what's happening and when. Your survey answers directly shape what lands in each phase."
+            eyebrow="05 / Roadmap"
+            title="Building in the open, until April 2027."
+            highlight={["open"]}
+            description="Baseline models first, then each new research part, then one final test and a user study. Final results are frozen a month before submission, and your survey answers shape the app along the way."
           />
           <Reveal delay={0.15}>
             <div className="glass rounded-3xl p-6 sm:p-8">
-              <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-cyan">
-                <CalendarDays className="h-3.5 w-3.5" /> Phase 1 countdown
-              </p>
-              <div className="mt-5">
-                <Countdown target={PHASE_ONE_DATE} />
-              </div>
+              <NextMilestone />
             </div>
           </Reveal>
         </div>
@@ -71,7 +87,7 @@ export function Roadmap() {
                       {m.status === "active" && (
                         <span className="animate-pulse-ring absolute inset-0 rounded-full bg-volt/30" />
                       )}
-                      <Icon className={cn("h-4 w-4", m.status === "planned" ? "text-muted" : m.status === "active" ? "text-volt" : "text-cyan")} />
+                      <Icon className={cn("h-4 w-4", m.status === "planned" || m.status === "done" ? "text-muted" : m.status === "active" ? "text-volt" : "text-cyan")} />
                     </motion.div>
                   </div>
 
@@ -94,14 +110,15 @@ export function Roadmap() {
                     <ul className={cn("mt-5 space-y-2.5", !right && "md:ml-auto md:max-w-md")}>
                       {m.items.map((item) => (
                         <li
-                          key={item}
+                          key={item.text}
                           className={cn(
                             "flex items-center gap-3 rounded-xl border border-line bg-white/[0.02] px-4 py-3 text-sm text-fg/90",
                             !right && "md:flex-row-reverse md:text-right",
                           )}
                         >
                           <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", s.dot)} />
-                          {item}
+                          <span className="w-14 shrink-0 font-mono text-[11px] uppercase tracking-wider text-subtle">{item.date}</span>
+                          <span>{item.text}</span>
                         </li>
                       ))}
                     </ul>

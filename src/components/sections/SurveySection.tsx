@@ -12,10 +12,10 @@ export function SurveySection() {
       <div className="relative mx-auto max-w-6xl px-6">
         <SectionHeading
           align="center"
-          eyebrow="04 / Community survey"
+          eyebrow="06 / Community survey"
           title="Help build the coach you actually want."
           highlight={["actually", "want"]}
-          description="This isn't just a form. It's your seat at the design table. I read every answer personally, and together they shape the Phase 1 release."
+          description="This isn't just a form. It's your seat at the design table. I read every answer personally, and together they shape what FitCoach AI does and how it explains itself."
         />
         <Reveal className="mt-16" y={40}>
           <LazySurvey />

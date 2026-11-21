@@ -25,11 +25,12 @@ export const metadata: Metadata = {
   description: site.description,
   keywords: [
     "FitCoach AI",
-    "AI fitness",
+    "AI gym coach",
     "body measurement",
+    "body fat estimate",
+    "likely range",
     "computer vision",
-    "fitness tracking",
-    "pre-launch survey",
+    "fitness research survey",
   ],
   openGraph: {
     title: `${site.name} | ${site.tagline}`,

@@ -35,12 +35,12 @@ export default function OpenGraphImage() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 84, fontWeight: 700, lineHeight: 1.02, letterSpacing: -3 }}>A new standard in</div>
+          <div style={{ fontSize: 84, fontWeight: 700, lineHeight: 1.02, letterSpacing: -3 }}>Train with a plan.</div>
           <div style={{ fontSize: 84, fontWeight: 700, lineHeight: 1.02, letterSpacing: -3, color: "#c8ff3d" }}>
-            fitness is coming.
+            Progress with clarity.
           </div>
           <div style={{ marginTop: 28, fontSize: 32, color: "#9aa3b5" }}>
-            AI body measurement from your phone camera.
+            An adaptive gym coach with an honest body check.
           </div>
         </div>
 

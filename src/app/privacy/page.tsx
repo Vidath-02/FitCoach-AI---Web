@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "What the FitCoach AI survey collects, why, where it's stored and your choices.",
 };
 
-const LAST_UPDATED = "October 2026";
+const LAST_UPDATED = "November 2026";
 
 const sections: { title: string; body: React.ReactNode }[] = [
   {
@@ -43,7 +43,7 @@ const sections: { title: string; body: React.ReactNode }[] = [
       <p>
         Responses are used for the FitCoach AI final-year university research project: to understand people&apos;s
         fitness habits and expectations, and to decide what gets built. Results are reported only in aggregated,
-        anonymised form. Emails are used only to send the launch update and, if you opted in, beta testing invitations.
+        anonymised form. Emails are used only to send project updates and, if you opted in, beta testing invitations.
       </p>
     ),
   },
@@ -61,7 +61,7 @@ const sections: { title: string; body: React.ReactNode }[] = [
     title: "How long it's kept",
     body: (
       <p>
-        Survey responses are kept for the duration of the research project. Email addresses are deleted once launch
+        Survey responses are kept for the duration of the research project. Email addresses are deleted once project
         updates and beta testing have finished.
       </p>
     ),

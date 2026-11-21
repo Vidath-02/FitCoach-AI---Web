@@ -44,7 +44,7 @@ function PreviewStack() {
       <FloatCard rotate={-6} delay={0.1} className="left-0 top-4 w-[78%]" float="float 7s ease-in-out infinite">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Your goals</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {["Build muscle", "Posture", "Stay healthy"].map((c, i) => (
+          {["Build muscle", "Get stronger", "Stay healthy"].map((c, i) => (
             <span
               key={c}
               className={

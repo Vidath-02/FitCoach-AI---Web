@@ -1,6 +1,6 @@
 import { Camera, Lock } from "lucide-react";
 import { Chips, EmojiScale, OptionCards, Question, RangeSlider } from "../controls";
-import { accuracyNeeds, comfortScale, photoStorage, scanClothing, scanFrequencies, scanMeasurements } from "../options";
+import { accuracyNeeds, comfortScale, photoStorage, resultFormats, scanClothing, scanFrequencies, scanMeasurements } from "../options";
 import type { StepProps } from "../types";
 
 const privacyLabel = (v: number) =>
@@ -12,8 +12,10 @@ export function BodyScanStep({ answers, update, showErrors }: StepProps) {
       <div className="flex gap-4 rounded-2xl border border-cyan/20 bg-cyan/[0.04] p-5">
         <Camera className="mt-0.5 h-5 w-5 shrink-0 text-cyan" />
         <p className="text-sm leading-relaxed text-fg/85">
-          <span className="font-medium text-fg">How it would work:</span> you take a front and a side photo with your
-          phone, and the model estimates measurements like chest, waist and hips. No tape measure needed.
+          <span className="font-medium text-fg">How it would work:</span> you take a front and a side photo in your
+          phone&apos;s browser. The model estimates 14 body measurements and your body fat, and shows each one with a
+          likely range, for example &ldquo;waist 90 cm, likely 86 &ndash; 94 cm&rdquo;. A tape-measure option is always
+          there too.
         </p>
       </div>
 
@@ -41,6 +43,16 @@ export function BodyScanStep({ answers, update, showErrors }: StepProps) {
           options={accuracyNeeds}
           value={answers.accuracyNeed}
           onChange={(v) => update("accuracyNeed", v as string)}
+          size="sm"
+        />
+      </Question>
+
+      <Question title="How would you like your results shown?" invalid={showErrors && !answers.resultFormat}>
+        <OptionCards
+          label="Result format"
+          options={resultFormats}
+          value={answers.resultFormat}
+          onChange={(v) => update("resultFormat", v as string)}
           size="sm"
         />
       </Question>
