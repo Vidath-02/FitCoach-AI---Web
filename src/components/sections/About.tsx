@@ -7,22 +7,23 @@ import { Reveal, Stagger, staggerItem } from "@/components/ui/Reveal";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Counter } from "@/components/ui/Counter";
 import { creator } from "@/lib/site";
+import { BodyCheckDemo } from "./BodyCheckDemo";
 
 const steps = [
   {
     icon: Camera,
     title: "Capture",
-    body: "Two quick photos, one from the front and one from the side, taken with the phone you already own. No tape, no smart scale.",
+    body: "Two photos, front and side, with any phone camera in the browser. A camera guide checks light, pose and blur, and asks for a retry instead of guessing.",
   },
   {
     icon: ScanLine,
-    title: "Analyse",
-    body: "A computer-vision model detects your body's key points and estimates measurements like chest, waist and hips.",
+    title: "Estimate",
+    body: "You are cut out as a silhouette and a two-view model estimates 14 body measurements and body fat, each with a likely range that is right about 90% of the time.",
   },
   {
     icon: ChartLine,
-    title: "Progress",
-    body: "Every scan becomes a data point. See real change over time and get guidance tuned to your body and goals.",
+    title: "Coach",
+    body: "Your ranges set calorie and protein targets, your logs teach the app your real maintenance, and your plan adapts. The AI coach proposes; you confirm.",
   },
 ];
 
@@ -55,13 +56,14 @@ export function About() {
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="01 / About FitCoach AI"
-          title="Fitness progress, finally measured properly."
-          highlight={["measured"]}
+          title="Progress you can actually trust."
+          highlight={["trust"]}
           description={
             <>
-              Most people track fitness with a bathroom scale and a guess. Weight alone hides the real story:
-              you can lose fat, gain muscle and see <em className="not-italic text-fg">no change on the scale</em>.
-              FitCoach AI gives everyone access to the kind of body measurements that used to need a trainer.
+              Body-scan apps give you one confident number, work best in lab conditions and never say how sure
+              they are. So is a 1&nbsp;cm change real progress, or <em className="not-italic text-fg">just noise</em>?
+              FitCoach AI shows every estimate with a likely range, then uses it to coach your training, nutrition
+              and recovery.
             </>
           }
         />
@@ -88,8 +90,9 @@ export function About() {
               </p>
               <h3 className="mt-8 font-display text-2xl font-semibold tracking-tight">Why I&apos;m building it</h3>
               <p className="mt-3 leading-relaxed text-muted">
-                Motivation dies when progress is invisible. Accurate, effortless measurement makes progress visible,
-                and visible progress keeps people moving. That&apos;s the habit loop I want to unlock for everyone.
+                Motivation dies when progress is invisible, and it dies again when the numbers can&apos;t be trusted.
+                I want a coach that is honest about what it knows: a range when it is unsure, &ldquo;not enough
+                data&rdquo; instead of a guess, and a plan that stays in your hands.
               </p>
               <div className="mt-8 flex flex-wrap gap-2">
                 {creator.links.map((l) => (
@@ -132,6 +135,16 @@ export function About() {
               ))}
             </Stagger>
           </div>
+        </div>
+
+        {/* The body check, in motion */}
+        <div className="mt-24">
+          <Reveal>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-subtle">See a body check in motion</p>
+          </Reveal>
+          <Reveal delay={0.1} className="mt-6">
+            <BodyCheckDemo />
+          </Reveal>
         </div>
 
         {/* Why fitness matters */}

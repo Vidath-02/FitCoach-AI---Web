@@ -1,9 +1,9 @@
 const words = [
-  "Computer vision",
-  "Body measurement",
-  "Progress tracking",
-  "Posture insight",
-  "Personalised plans",
+  "Honest likely ranges",
+  "Body check from two photos",
+  "Adaptive training plans",
+  "Safety rules first",
+  "You confirm every change",
   "Privacy first",
   "Built with you",
 ];

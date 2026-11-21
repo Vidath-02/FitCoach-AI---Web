@@ -16,8 +16,8 @@ export function Footer() {
           <div className="max-w-sm">
             <Logo />
             <p className="mt-5 text-sm leading-relaxed text-muted">
-              An AI-powered platform for computer-vision body measurement and fitness tracking. An individual
-              final-year project by {creator.name}.
+              An adaptive web gym coach with an honest, uncertainty-aware body check. An individual final-year
+              research project by {creator.name}.
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export function Footer() {
       <div className="relative border-t border-line bg-ink/80">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-subtle sm:flex-row">
           <p>© {new Date().getFullYear()} {site.name} · Built by {creator.name}</p>
-          <p className="font-mono uppercase tracking-[0.18em]">Pre-launch · v0.1</p>
+          <p className="font-mono uppercase tracking-[0.18em]">In development · v0.2</p>
         </div>
       </div>
     </footer>

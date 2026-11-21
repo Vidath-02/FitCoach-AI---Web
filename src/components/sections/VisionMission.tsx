@@ -1,17 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Eye, Gauge, Globe, Lock, Rocket, WandSparkles } from "lucide-react";
+import { Eye, Gauge, Globe, Lock, Rocket, ShieldCheck } from "lucide-react";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Reveal, Stagger, staggerItem } from "@/components/ui/Reveal";
 import { ScrollText } from "@/components/ui/ScrollText";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 const pillars = [
-  { icon: Gauge, title: "Accurate", body: "Every estimate will be tested against real tape-measure readings." },
-  { icon: Lock, title: "Private by design", body: "Your body data is yours. Minimal collection, clear consent, no surprises." },
-  { icon: Globe, title: "Accessible", body: "No gym membership or expensive hardware. Just the phone in your pocket." },
-  { icon: WandSparkles, title: "Motivating", body: "Progress you can see, goals that adapt, and feedback that keeps you going." },
+  { icon: Gauge, title: "Honest", body: "Every estimate comes with a checked likely range, and “not enough data” beats a guess." },
+  { icon: Lock, title: "Private by design", body: "Body photos are processed on my server, deleted after the check and never sent to an outside AI." },
+  { icon: Globe, title: "Accessible", body: "Runs in the browser with any phone camera. No depth sensor, no smart scale, no install." },
+  { icon: ShieldCheck, title: "Safe", body: "One rule engine checks every change, and nothing changes without your confirmation." },
 ];
 
 export function VisionMission() {
@@ -21,13 +21,13 @@ export function VisionMission() {
 
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
-          <Eyebrow>02 / Vision &amp; Mission</Eyebrow>
+          <Eyebrow>04 / Vision &amp; Mission</Eyebrow>
         </Reveal>
 
         <ScrollText
           className="mt-10 font-display text-[clamp(2rem,4.6vw,4.1rem)] font-semibold leading-[1.08] tracking-[-0.035em]"
-          text="I believe everyone deserves to understand their body as precisely as an elite athlete, using nothing more than the phone in their pocket."
-          highlight={["everyone", "precisely", "phone"]}
+          text="I believe a fitness app should be honest about what it knows, and coach you with a plan that stays in your hands."
+          highlight={["honest", "your", "hands"]}
         />
 
         <div className="mt-24 grid gap-5 md:grid-cols-2">
@@ -38,8 +38,8 @@ export function VisionMission() {
                 <Eye className="h-5 w-5 text-cyan" />
               </div>
               <p className="mt-8 font-display text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
-                A world where tracking your fitness is as effortless as taking a photo, and where every person can see,
-                trust and celebrate their own progress.
+                A world where anyone can understand their body from a phone photo, and trust the numbers because they
+                come with an honest range.
               </p>
             </SpotlightCard>
           </Reveal>
@@ -50,8 +50,8 @@ export function VisionMission() {
                 <Rocket className="h-5 w-5 text-volt" />
               </div>
               <p className="mt-8 font-display text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
-                Build an AI coach that measures accurately, protects privacy, and turns body data into simple,
-                personal guidance that helps people stay active for life.
+                Build an adaptive gym coach whose body check works on home photos, is fair for every body type and is
+                honest about its uncertainty, and that never changes your plan without your OK.
               </p>
             </SpotlightCard>
           </Reveal>
