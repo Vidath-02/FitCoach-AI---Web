@@ -3,11 +3,14 @@ import {
   Bike,
   Briefcase,
   Building2,
+  Calculator,
+  CalendarCheck,
   Camera,
   ChartLine,
   Cloud,
   Dumbbell,
   EyeOff,
+  FileUp,
   Flame,
   Footprints,
   GraduationCap,
@@ -15,17 +18,17 @@ import {
   House,
   Layers,
   MessageCircle,
+  Moon,
   Mountain,
-  PersonStanding,
   Salad,
   ShieldCheck,
   Shirt,
   Smartphone,
   Sparkles,
+  Timer,
   Trash2,
   Trophy,
   Users,
-  Watch,
   type LucideIcon,
 } from "lucide-react";
 
@@ -38,7 +41,8 @@ export interface Option {
 }
 
 export const ageRanges: Option[] = [
-  { value: "under-18", label: "Under 18" },
+  { value: "under-16", label: "Under 16" },
+  { value: "16-17", label: "16 – 17" },
   { value: "18-24", label: "18 – 24" },
   { value: "25-34", label: "25 – 34" },
   { value: "35-44", label: "35 – 44" },
@@ -71,10 +75,11 @@ export const activityLevels: Option[] = [
 export const goals: Option[] = [
   { value: "lose-fat", label: "Lose body fat", icon: Flame },
   { value: "build-muscle", label: "Build muscle", icon: Dumbbell },
+  { value: "strength", label: "Get stronger", icon: Trophy },
   { value: "endurance", label: "Improve fitness & stamina", icon: HeartPulse },
-  { value: "posture", label: "Better posture", icon: PersonStanding },
+  { value: "consistency", label: "Train consistently", icon: CalendarCheck },
   { value: "health", label: "Stay healthy", icon: ShieldCheck },
-  { value: "performance", label: "Sport performance", icon: Trophy },
+  { value: "performance", label: "Sport performance", icon: Footprints },
 ];
 
 export const trainingPlaces: Option[] = [
@@ -132,17 +137,20 @@ export const scanFrequencies: Option[] = [
   { value: "occasionally", label: "Only occasionally" },
 ];
 
+/** Survey v4: the planned FitCoach AI features (project document v3). "ai-coach" and "reminders" keep their v3 keys. */
 export const features: Option[] = [
-  { value: "body-measure", label: "AI body measurements", description: "Chest, waist, hips & more from photos", icon: Camera },
-  { value: "progress-3d", label: "3D progress timeline", description: "See your body change over time", icon: Layers },
-  { value: "posture", label: "Posture analysis", description: "Spot imbalances and get fixes", icon: PersonStanding },
-  { value: "workouts", label: "Personalised workouts", description: "Plans built from your measurements", icon: Dumbbell },
-  { value: "nutrition", label: "Meal planning", description: "Simple, goal-based meal plans and tips", icon: Salad },
-  { value: "ai-coach", label: "AI coach chat", description: "Ask questions, get instant answers", icon: MessageCircle },
-  { value: "wearables", label: "Wearable sync", description: "Connect your watch or fitness band", icon: Watch },
-  { value: "analytics", label: "Progress analytics", description: "Trends, streaks and insights", icon: ChartLine },
-  { value: "reminders", label: "Smart reminders", description: "Nudges at the times that suit you", icon: Bell },
-  { value: "community", label: "Challenges & community", description: "Compete and train with friends", icon: Users },
+  { value: "body-check", label: "Body check from two photos", description: "14 measurements and body fat, each with a likely range", icon: Camera },
+  { value: "weekly-plan", label: "Adaptive weekly gym plan", description: "Built from your goal, free days and gym equipment", icon: Layers },
+  { value: "guided-sessions", label: "Guided workouts", description: "Exercise cards with steps and common mistakes", icon: Dumbbell },
+  { value: "set-logging", label: "Fast set logging", description: "Save every set, keep a rest timer, swap an exercise", icon: Timer },
+  { value: "plate-calculator", label: "Barbell plate calculator", description: "How to load the bar with the plates your gym has", icon: Calculator },
+  { value: "meal-journal", label: "Meal journal with photo help", description: "A meal photo suggests foods; you confirm the amounts", icon: Salad },
+  { value: "recovery", label: "Recovery check-ins", description: "Sleep, energy, soreness and mood", icon: Moon },
+  { value: "forecasts", label: "Weight forecast & adaptive calories", description: "Learns your real maintenance calories from your logs", icon: ChartLine },
+  { value: "ai-coach", label: "AI coach chat", description: "Explains your plan and proposes changes you confirm", icon: MessageCircle },
+  { value: "human-coach", label: "Share with a real coach", description: "A coach can view, comment and suggest, only with your permission", icon: Users },
+  { value: "reminders", label: "Reminders", description: "Neutral workout and logging reminders at your local time", icon: Bell },
+  { value: "csv-import", label: "Import old workout logs", description: "Bring your history in from a spreadsheet", icon: FileUp },
 ];
 
 export const platforms: Option[] = [
@@ -219,7 +227,6 @@ export const scanMeasurements: Option[] = [
   { value: "thighs", label: "Thighs" },
   { value: "neck", label: "Neck" },
   { value: "body-fat", label: "Body fat %" },
-  { value: "posture", label: "Posture" },
 ];
 
 export const accuracyNeeds: Option[] = [
@@ -243,7 +250,29 @@ export const photoStorage: Option[] = [
   { value: "no-preference", label: "No preference", description: "Whatever works best", icon: Sparkles },
 ];
 
+export const resultFormats: Option[] = [
+  { value: "single", label: "One number", description: "\u201cWaist 90 cm\u201d" },
+  { value: "range", label: "A number with a likely range", description: "\u201cWaist 90 cm, likely 86 \u2013 94 cm\u201d" },
+  { value: "trend", label: "Just the trend", description: "\u201cSmaller\u201d, \u201cbigger\u201d or \u201cno clear change yet\u201d" },
+  { value: "unsure", label: "Not sure", description: "I'd decide after trying it" },
+];
+
 /* ---------------- AI coach ---------------- */
+
+export const coachAuthority: Option[] = [
+  { value: "auto", label: "Just change it", description: "Update my plan automatically" },
+  { value: "propose", label: "Suggest, then I confirm", description: "Show me the change first and let me decide" },
+  { value: "explain", label: "Advice only", description: "Explain things, but never touch my plan" },
+  { value: "none", label: "I wouldn't use an AI coach", },
+];
+
+export const humanCoachSharing: Option[] = [
+  { value: "workouts", label: "Workouts and plans only" },
+  { value: "workouts-meals", label: "Workouts, plans and meals" },
+  { value: "everything", label: "Everything, including body photos" },
+  { value: "no", label: "I wouldn't share" },
+  { value: "no-coach", label: "I don't have a coach" },
+];
 
 export const coachStyles: Option[] = [
   { value: "encouraging", label: "Encouraging", description: "Friendly, celebrates small wins", emoji: "🤗" },

@@ -8,7 +8,7 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
 
   return (
     <div className="space-y-10">
-      <Question title="How likely are you to try FitCoach AI when it launches?" invalid={showErrors && answers.launchLikelihood === null}>
+      <Question title="How likely are you to try FitCoach AI when a version is ready?" invalid={showErrors && answers.launchLikelihood === null}>
         <NumberScale
           label="Likelihood to try FitCoach AI, 0 to 10"
           value={answers.launchLikelihood}
@@ -42,8 +42,8 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
           <Toggle
             checked={answers.earlyAccess}
             onChange={(v) => update("earlyAccess", v)}
-            label="Get early access to Phase 1"
-            description="You'll get one email when the January release is ready. No spam."
+            label="Get early access"
+            description="You'll get one email when there's a version you can try. No spam."
           />
           <Toggle
             checked={answers.betaTester}
@@ -87,7 +87,7 @@ export function FinalStep({ answers, update, showErrors }: StepProps & { showErr
 
       <Checkbox checked={answers.consent} onChange={(v) => update("consent", v)} invalid={showErrors && !answers.consent}>
         I agree that my responses may be used, in anonymised form, for the FitCoach AI final-year university research
-        project. My email (if provided) is only used for launch updates and, if I opted in, beta testing invitations.
+        project. My email (if provided) is only used for project updates and, if I opted in, beta testing invitations.
       </Checkbox>
       <p className="-mt-6 pl-1 text-xs text-subtle">
         How your data is stored and protected:{" "}

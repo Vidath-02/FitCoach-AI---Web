@@ -16,7 +16,7 @@ import { initialAnswers, type SurveyAnswers, type Update } from "./types";
 import { validators } from "./validation";
 
 // Bump the version when steps change, so old drafts don't resume on the wrong step.
-const STORAGE_KEY = "fitcoach-survey-draft-v2";
+const STORAGE_KEY = "fitcoach-survey-draft-v4";
 /** Set after a successful submit, so a returning visitor sees a thank-you instead of a fresh survey. */
 const SUBMITTED_KEY = "fitcoach-survey-submitted";
 /** Unfinished drafts older than this are discarded. */

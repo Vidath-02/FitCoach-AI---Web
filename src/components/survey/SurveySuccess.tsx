@@ -95,7 +95,7 @@ export function SurveySuccess({ answers, onAnother }: { answers: SurveyAnswers; 
         transition={{ duration: 1, ease, delay: 0.4 }}
         className="mt-10 max-w-2xl font-display text-4xl font-semibold leading-[1.05] tracking-[-0.035em] sm:text-5xl"
       >
-        {firstName ? `Thank you, ${firstName}.` : "Thank you."} <span className="text-gradient">You&apos;re shaping the future of fitness.</span>
+        {firstName ? `Thank you, ${firstName}.` : "Thank you."} <span className="text-gradient">You&apos;re helping build a more honest coach.</span>
       </motion.h3>
 
       <motion.p
@@ -108,8 +108,8 @@ export function SurveySuccess({ answers, onAnother }: { answers: SurveyAnswers; 
         {answers.betaTester && answers.email
           ? "You're on the beta tester list. I'll email you when the first build is ready to try."
           : answers.earlyAccess && answers.email
-            ? "You're on the early-access list, and you'll get an email when Phase 1 is ready in January."
-            : "Keep an eye out for Phase 1 in January."}
+            ? "You're on the early-access list, and you'll get an email when there's a version you can try."
+            : "Check the roadmap above to see what comes next."}
       </motion.p>
 
       {(answers.goals.length > 0 || mustHaves.length > 0) && (

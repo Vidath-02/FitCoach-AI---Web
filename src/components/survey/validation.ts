@@ -30,12 +30,12 @@ export const validators: ((a: SurveyAnswers) => string | null)[] = [
       : null,
   // 4 · AI body scan
   (a) =>
-    !a.cameraComfort || a.scanMeasurements.length === 0 || !a.accuracyNeed || !a.scanClothing || !a.photoStorage || !a.scanFrequency
+    !a.cameraComfort || a.scanMeasurements.length === 0 || !a.accuracyNeed || !a.resultFormat || !a.scanClothing || !a.photoStorage || !a.scanFrequency
       ? MISSING
       : null,
   // 5 · AI coach
   (a) =>
-    !a.coachStyle || !a.checkInFrequency || !a.aiTrust || a.motivators.length === 0 || a.dietPreference.length === 0
+    !a.coachStyle || !a.checkInFrequency || !a.aiTrust || !a.coachAuthority || !a.humanCoach || a.motivators.length === 0 || a.dietPreference.length === 0
       ? MISSING
       : null,
   // 6 · Features
